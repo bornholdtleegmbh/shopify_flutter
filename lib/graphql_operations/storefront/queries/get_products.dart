@@ -95,6 +95,15 @@ query($cursor : String, $reverse: Boolean, $country: CountryCode)  @inContext(co
             }
           }
         }
+        metafields(first: 250) {
+          edges {
+            node {
+              namespace
+               key
+                value
+            }
+          }
+        }
       }
     }
   }
