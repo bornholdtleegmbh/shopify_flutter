@@ -29,8 +29,8 @@ mixin _$Product {
   List<ShopifyImage> get images => throw _privateConstructorUsedError;
   List<Option> get options => throw _privateConstructorUsedError;
   String get vendor => throw _privateConstructorUsedError;
-  List<ProductMedia> get media =>
-      throw _privateConstructorUsedError; // required List<Metafield> metafields,
+  List<ProductMedia> get media => throw _privateConstructorUsedError;
+  List<Metafield> get metafields => throw _privateConstructorUsedError;
   List<AssociatedCollections>? get collectionList =>
       throw _privateConstructorUsedError;
   String? get cursor => throw _privateConstructorUsedError;
@@ -39,9 +39,7 @@ mixin _$Product {
   String? get descriptionHtml => throw _privateConstructorUsedError;
   String? get handle => throw _privateConstructorUsedError;
 
-  /// Create a copy of Product
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $ProductCopyWith<Product> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -64,6 +62,7 @@ abstract class $ProductCopyWith<$Res> {
       List<Option> options,
       String vendor,
       List<ProductMedia> media,
+      List<Metafield> metafields,
       List<AssociatedCollections>? collectionList,
       String? cursor,
       String? onlineStoreUrl,
@@ -82,8 +81,6 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Product
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -100,6 +97,7 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
     Object? options = null,
     Object? vendor = null,
     Object? media = null,
+    Object? metafields = null,
     Object? collectionList = freezed,
     Object? cursor = freezed,
     Object? onlineStoreUrl = freezed,
@@ -160,6 +158,10 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
           ? _value.media
           : media // ignore: cast_nullable_to_non_nullable
               as List<ProductMedia>,
+      metafields: null == metafields
+          ? _value.metafields
+          : metafields // ignore: cast_nullable_to_non_nullable
+              as List<Metafield>,
       collectionList: freezed == collectionList
           ? _value.collectionList
           : collectionList // ignore: cast_nullable_to_non_nullable
@@ -209,6 +211,7 @@ abstract class _$$ProductImplCopyWith<$Res> implements $ProductCopyWith<$Res> {
       List<Option> options,
       String vendor,
       List<ProductMedia> media,
+      List<Metafield> metafields,
       List<AssociatedCollections>? collectionList,
       String? cursor,
       String? onlineStoreUrl,
@@ -225,8 +228,6 @@ class __$$ProductImplCopyWithImpl<$Res>
       _$ProductImpl _value, $Res Function(_$ProductImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Product
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -243,6 +244,7 @@ class __$$ProductImplCopyWithImpl<$Res>
     Object? options = null,
     Object? vendor = null,
     Object? media = null,
+    Object? metafields = null,
     Object? collectionList = freezed,
     Object? cursor = freezed,
     Object? onlineStoreUrl = freezed,
@@ -303,6 +305,10 @@ class __$$ProductImplCopyWithImpl<$Res>
           ? _value._media
           : media // ignore: cast_nullable_to_non_nullable
               as List<ProductMedia>,
+      metafields: null == metafields
+          ? _value._metafields
+          : metafields // ignore: cast_nullable_to_non_nullable
+              as List<Metafield>,
       collectionList: freezed == collectionList
           ? _value._collectionList
           : collectionList // ignore: cast_nullable_to_non_nullable
@@ -348,6 +354,7 @@ class _$ProductImpl extends _Product {
       required final List<Option> options,
       required this.vendor,
       required final List<ProductMedia> media,
+      required final List<Metafield> metafields,
       final List<AssociatedCollections>? collectionList,
       this.cursor,
       this.onlineStoreUrl,
@@ -359,6 +366,7 @@ class _$ProductImpl extends _Product {
         _images = images,
         _options = options,
         _media = media,
+        _metafields = metafields,
         _collectionList = collectionList,
         super._();
 
@@ -418,9 +426,15 @@ class _$ProductImpl extends _Product {
     return EqualUnmodifiableListView(_media);
   }
 
-// required List<Metafield> metafields,
+  final List<Metafield> _metafields;
+  @override
+  List<Metafield> get metafields {
+    if (_metafields is EqualUnmodifiableListView) return _metafields;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_metafields);
+  }
+
   final List<AssociatedCollections>? _collectionList;
-// required List<Metafield> metafields,
   @override
   List<AssociatedCollections>? get collectionList {
     final value = _collectionList;
@@ -443,7 +457,7 @@ class _$ProductImpl extends _Product {
 
   @override
   String toString() {
-    return 'Product(title: $title, id: $id, availableForSale: $availableForSale, createdAt: $createdAt, productVariants: $productVariants, productType: $productType, publishedAt: $publishedAt, tags: $tags, updatedAt: $updatedAt, images: $images, options: $options, vendor: $vendor, media: $media, collectionList: $collectionList, cursor: $cursor, onlineStoreUrl: $onlineStoreUrl, description: $description, descriptionHtml: $descriptionHtml, handle: $handle)';
+    return 'Product(title: $title, id: $id, availableForSale: $availableForSale, createdAt: $createdAt, productVariants: $productVariants, productType: $productType, publishedAt: $publishedAt, tags: $tags, updatedAt: $updatedAt, images: $images, options: $options, vendor: $vendor, media: $media, metafields: $metafields, collectionList: $collectionList, cursor: $cursor, onlineStoreUrl: $onlineStoreUrl, description: $description, descriptionHtml: $descriptionHtml, handle: $handle)';
   }
 
   @override
@@ -470,6 +484,8 @@ class _$ProductImpl extends _Product {
             const DeepCollectionEquality().equals(other._options, _options) &&
             (identical(other.vendor, vendor) || other.vendor == vendor) &&
             const DeepCollectionEquality().equals(other._media, _media) &&
+            const DeepCollectionEquality()
+                .equals(other._metafields, _metafields) &&
             const DeepCollectionEquality()
                 .equals(other._collectionList, _collectionList) &&
             (identical(other.cursor, cursor) || other.cursor == cursor) &&
@@ -498,6 +514,7 @@ class _$ProductImpl extends _Product {
         const DeepCollectionEquality().hash(_options),
         vendor,
         const DeepCollectionEquality().hash(_media),
+        const DeepCollectionEquality().hash(_metafields),
         const DeepCollectionEquality().hash(_collectionList),
         cursor,
         onlineStoreUrl,
@@ -506,9 +523,7 @@ class _$ProductImpl extends _Product {
         handle
       ]);
 
-  /// Create a copy of Product
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ProductImplCopyWith<_$ProductImpl> get copyWith =>
@@ -530,6 +545,7 @@ abstract class _Product extends Product {
       required final List<Option> options,
       required final String vendor,
       required final List<ProductMedia> media,
+      required final List<Metafield> metafields,
       final List<AssociatedCollections>? collectionList,
       final String? cursor,
       final String? onlineStoreUrl,
@@ -563,7 +579,9 @@ abstract class _Product extends Product {
   @override
   String get vendor;
   @override
-  List<ProductMedia> get media; // required List<Metafield> metafields,
+  List<ProductMedia> get media;
+  @override
+  List<Metafield> get metafields;
   @override
   List<AssociatedCollections>? get collectionList;
   @override
@@ -576,11 +594,8 @@ abstract class _Product extends Product {
   String? get descriptionHtml;
   @override
   String? get handle;
-
-  /// Create a copy of Product
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ProductImplCopyWith<_$ProductImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
