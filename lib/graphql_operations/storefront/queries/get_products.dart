@@ -100,7 +100,7 @@ query($cursor : String, $reverse: Boolean, $country: CountryCode)  @inContext(co
             node {
               namespace
                key
-                value
+               value
             }
           }
         }
