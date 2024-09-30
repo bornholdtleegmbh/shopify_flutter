@@ -96,34 +96,19 @@ query($cursor : String, $reverse: Boolean, $country: CountryCode)  @inContext(co
           }
         }
         metafields(identifiers: [
-          {namespace: "custom", key: "bundle_components"},
-          {namespace: "custom", key: "nutrients"},
-          {namespace: "custom", key: "intake_notes"},
-          {namespace: "custom", key: "intake_label"},
-          {namespace: "custom", key: "serving_unit"},
-          {namespace: "custom", key: "serving_amount"},
-          {namespace: "custom", key: "intake_timing"},
-          {namespace: "custom", key: "packaging_format"},
-          {namespace: "custom", key: "advantage_package_two_image"},
-          {namespace: "custom", key: "advantage_package_one_image"},
-          {namespace: "custom", key: "is_free_shaker"},
-          {namespace: "custom", key: "grant_free_shaker"},
-          {namespace: "custom", key: "advantage_packages_group"},
-          {namespace: "custom", key: "advantage_packages_enable"},
-          {namespace: "custom", key: "three_step_description_reference"},
-          {namespace: "custom", key: "specifications_health_claims"},
-          {namespace: "custom", key: "specifications_recommended_intake"},
-          {namespace: "custom", key: "specifications_lab_certificates"},
-          {namespace: "custom", key: "hide_from_search"},
-          {namespace: "custom", key: "bundle_component_reference"}
+          {namespace: "specifications", key: "intake_timing"},
+          {namespace: "specifications", key: "serving_amount"},
+          {namespace: "specifications", key: "serving_unit"},
+          {namespace: "specifications", key: "intake_label"},
+          {namespace: "specifications", key: "intake_notes"},
+          {namespace: "specifications", key: "nutrients"},
+          {namespace: "bundles", key: "components"},
         ]) {
-          edges {
-            node {
-              namespace
-              key
-              value
-            }
-          }
+          id
+          namespace
+          key
+          value
+          type
         }
       }
     }

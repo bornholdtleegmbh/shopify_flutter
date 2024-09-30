@@ -357,16 +357,15 @@ class Product with _$Product {
     try {
       if (json.containsKey('node')) {
         if (json['node']?['metafields'] == null) return [];
-        return ((json['node']?['metafields']?['edges'] ?? []) as List)
-            .map((v) => Metafield.fromGraphJson(v ?? const {}))
-            .toList();
-      } else {
-        if (json['metafields'] == null) return [];
-        return ((json['metafields'] ?? []) as List).map((v) {
-          final jsonMetafield = v is Metafield ? v.toJson() : v;
-          return Metafield.fromJson(jsonMetafield ?? const {});
+
+        var list = (json['node']?['metafields']) as List;
+
+        return list.where((entry) => entry != null).map((entry) {
+          log("Mapping entry: $entry");
+          return Metafield.fromGraphJson(entry);
         }).toList();
       }
+      return [];
     } catch (e) {
       log("_getMetafieldList error: $e");
       return [];
