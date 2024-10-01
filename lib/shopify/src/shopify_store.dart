@@ -54,7 +54,7 @@ class ShopifyStore with ShopifyError {
         return '{namespace: "${entry.value}", key: "${entry.key}"}';
       }).join(',\n');
 
-      productsQuery.replaceAll('###_METAFIELDS_###', metafieldString);
+      productsQuery = productsQuery.replaceAll('###_METAFIELDS_###', metafieldString);
 
       _options = WatchQueryOptions(
         document: gql(productsQuery),
