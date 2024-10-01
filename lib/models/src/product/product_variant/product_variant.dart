@@ -62,7 +62,7 @@ class ProductVariant with _$ProductVariant {
       requiresShipping: nodeJson['requiresShipping'],
       id: nodeJson['id'],
       quantityAvailable: nodeJson['quantityAvailable'],
-      metafields: _getMetafieldList(nodeJson['metafields']),
+      metafields: _getMetafieldList(nodeJson),
       sku: nodeJson['sku'],
       unitPrice: nodeJson['unitPrice'] != null
           ? PriceV2.fromJson(nodeJson['unitPrice'])
