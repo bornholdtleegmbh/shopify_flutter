@@ -41,6 +41,16 @@ query($cursor : String, $reverse: Boolean, $country: CountryCode)  @inContext(co
                 name
                 value
               }
+              metafields(identifiers: [
+                {namespace: "specifications", key: "prtions_total"},
+                {namespace: "specifications", key: "portions_is_daily"},
+              ]) {
+                id
+                namespace
+                key
+                value
+                type
+              }
             }
           }
           pageInfo {

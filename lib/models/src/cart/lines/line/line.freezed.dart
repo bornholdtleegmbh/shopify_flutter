@@ -28,8 +28,12 @@ mixin _$Line {
   List<CartDiscountAllocation?>? get discountAllocations =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this Line to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Line
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LineCopyWith<Line> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -60,6 +64,8 @@ class _$LineCopyWithImpl<$Res, $Val extends Line>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Line
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -98,6 +104,8 @@ class _$LineCopyWithImpl<$Res, $Val extends Line>
     ) as $Val);
   }
 
+  /// Create a copy of Line
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CartLineCostCopyWith<$Res>? get cost {
@@ -110,6 +118,8 @@ class _$LineCopyWithImpl<$Res, $Val extends Line>
     });
   }
 
+  /// Create a copy of Line
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ProductVariantCopyWith<$Res>? get merchandise {
@@ -151,6 +161,8 @@ class __$$LineImplCopyWithImpl<$Res>
   __$$LineImplCopyWithImpl(_$LineImpl _value, $Res Function(_$LineImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Line
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -249,12 +261,14 @@ class _$LineImpl extends _Line {
                 .equals(other._discountAllocations, _discountAllocations));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, quantity, cost, merchandise,
       variantId, const DeepCollectionEquality().hash(_discountAllocations));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Line
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LineImplCopyWith<_$LineImpl> get copyWith =>
@@ -292,8 +306,11 @@ abstract class _Line extends Line {
   String? get variantId;
   @override
   List<CartDiscountAllocation?>? get discountAllocations;
+
+  /// Create a copy of Line
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LineImplCopyWith<_$LineImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

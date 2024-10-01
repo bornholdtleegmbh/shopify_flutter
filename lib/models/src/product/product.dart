@@ -224,6 +224,7 @@ class Product with _$Product {
             jsonVariant['selectedOptions'] = jsonVariant['selectedOptions']
                 ?.map((e) => e is SelectedOption ? e.toJson() : e)
                 ?.toList();
+            jsonVariant['metafields'] = _getMetafieldList(jsonVariant['metafields']);
             return ProductVariant.fromJson(jsonVariant);
           }).toList();
         }
