@@ -106,13 +106,7 @@ query($cursor : String, $reverse: Boolean, $country: CountryCode)  @inContext(co
           }
         }
         metafields(identifiers: [
-          {namespace: "specifications", key: "intake_timing"},
-          {namespace: "specifications", key: "serving_amount"},
-          {namespace: "specifications", key: "serving_unit"},
-          {namespace: "specifications", key: "intake_label"},
-          {namespace: "specifications", key: "intake_notes"},
-          {namespace: "specifications", key: "nutrients"},
-          {namespace: "bundles", key: "components"},
+          ###_METAFIELDS_###
         ]) {
           id
           namespace
