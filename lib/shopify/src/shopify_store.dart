@@ -42,6 +42,7 @@ class ShopifyStore with ShopifyError {
   /// Simply returns all Products from your Store.
   Future<List<Product>> getAllProducts({
     Map<String, String> metafields = const {'key': 'value'},
+    Map<String, String> varMetafields = const {'key': 'value'},
     bool reverse = false,
   }) async {
     List<Product> productList = [];
@@ -50,11 +51,15 @@ class ShopifyStore with ShopifyError {
     WatchQueryOptions _options;
     do {
       String productsQuery = getProductsQuery;
-      String metafieldString = metafields.entries.map((entry) {
+      String metafieldStr = metafields.entries.map((entry) {
+        return '{namespace: "${entry.value}", key: "${entry.key}"}';
+      }).join(',\n');
+      String varMetafieldStr = varMetafields.entries.map((entry) {
         return '{namespace: "${entry.value}", key: "${entry.key}"}';
       }).join(',\n');
 
-      productsQuery = productsQuery.replaceAll('###_METAFIELDS_###', metafieldString);
+      productsQuery = productsQuery.replaceAll('###_METAFIELDS_###', metafieldStr);
+      productsQuery = productsQuery.replaceAll('###_VAR_METAFIELDS_###', varMetafieldStr);
 
       _options = WatchQueryOptions(
         document: gql(productsQuery),

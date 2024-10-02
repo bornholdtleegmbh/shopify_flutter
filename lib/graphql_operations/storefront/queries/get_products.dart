@@ -42,8 +42,7 @@ query($cursor : String, $reverse: Boolean, $country: CountryCode)  @inContext(co
                 value
               }
               metafields(identifiers: [
-                {namespace: "specifications", key: "prtions_total"},
-                {namespace: "specifications", key: "portions_is_daily"},
+                ###_VAR_METAFIELDS_###,
               ]) {
                 id
                 namespace
@@ -106,7 +105,7 @@ query($cursor : String, $reverse: Boolean, $country: CountryCode)  @inContext(co
           }
         }
         metafields(identifiers: [
-          ###_METAFIELDS_###
+          ###_METAFIELDS_###,
         ]) {
           id
           namespace
