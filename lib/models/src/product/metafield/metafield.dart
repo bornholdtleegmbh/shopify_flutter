@@ -20,14 +20,27 @@ class Metafield with _$Metafield {
   }) = _Metafield;
 
   /// The Metafield from graphjson
-  factory Metafield.fromGraphJson(Map<String, dynamic> json) => Metafield(
-        id: (json['node'] ?? const {})['id'],
-        key: (json['node'] ?? const {})['key'],
-        namespace: (json['node'] ?? const {})['namespace'],
-        type: (json['node'] ?? const {})['type'],
-        value: (json['node'] ?? const {})['value'],
-        description: (json['node'] ?? const {})['description'],
+  factory Metafield.fromGraphJson(Map<String, dynamic> json) {
+    try {
+      return Metafield(
+        id: json['id'] ?? '',
+        namespace: json['namespace'] ?? '',
+        key: json['key'] ?? '',
+        value: json['value'] ?? '',
+        type: json['type'] ?? '',
+        description: json['description'] ?? '',
       );
+    } catch (e) {
+      return Metafield(
+        id: '',
+        namespace: '',
+        key: '',
+        value: '',
+        type: '',
+        description: '',
+      );
+    }
+  }
 
   /// The Metafield from json
   factory Metafield.fromJson(Map<String, dynamic> json) =>

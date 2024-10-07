@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:shopify_flutter/models/src/product/price_v_2/price_v_2.dart';
 import 'package:shopify_flutter/models/src/product/selected_option/selected_option.dart';
 import 'package:shopify_flutter/models/src/product/shopify_image/shopify_image.dart';
 import 'package:shopify_flutter/models/src/product/unit_price_measurement/unit_price_measurement.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../metafield/metafield.dart';
 import '../product.dart';
 
 part 'product_variant.freezed.dart';
@@ -25,6 +28,7 @@ class ProductVariant with _$ProductVariant {
     required bool requiresShipping,
     required String id,
     required int quantityAvailable,
+    required List<Metafield> metafields,
     String? sku,
     PriceV2? unitPrice,
     UnitPriceMeasurement? unitPriceMeasurement,
@@ -58,6 +62,7 @@ class ProductVariant with _$ProductVariant {
       requiresShipping: nodeJson['requiresShipping'],
       id: nodeJson['id'],
       quantityAvailable: nodeJson['quantityAvailable'],
+      metafields: _getMetafieldList(nodeJson),
       sku: nodeJson['sku'],
       unitPrice: nodeJson['unitPrice'] != null
           ? PriceV2.fromJson(nodeJson['unitPrice'])
@@ -82,5 +87,21 @@ class ProductVariant with _$ProductVariant {
       if (v != null) optionList.add(SelectedOption.fromJson(v ?? const {}));
     });
     return optionList;
+  }
+
+  static List<Metafield> _getMetafieldList(Map<String, dynamic> json) {
+    try {
+        if (json['metafields'] == null) return [];
+
+        var list = (json['metafields']) as List;
+
+        return list.where((entry) => entry != null).map((entry) {
+          log("Mapping entry: $entry");
+          return Metafield.fromGraphJson(entry);
+        }).toList();
+    } catch (e) {
+      log("_getMetafieldList error: $e");
+      return [];
+    }
   }
 }

@@ -9,11 +9,11 @@ part of 'unit_price_measurement.dart';
 _$UnitPriceMeasurementImpl _$$UnitPriceMeasurementImplFromJson(
         Map<String, dynamic> json) =>
     _$UnitPriceMeasurementImpl(
-      measuredType: json['measuredType'] as String,
-      quantityUnit: json['quantityUnit'] as String,
-      quantityValue: (json['quantityValue'] as num).toDouble(),
-      referenceUnit: json['referenceUnit'] as String,
-      referenceValue: (json['referenceValue'] as num).toInt(),
+      measuredType: json['measuredType'] as String?,
+      quantityUnit: json['quantityUnit'] as String?,
+      quantityValue: (json['quantityValue'] as num?)?.toDouble(),
+      referenceUnit: json['referenceUnit'] as String?,
+      referenceValue: (json['referenceValue'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$UnitPriceMeasurementImplToJson(

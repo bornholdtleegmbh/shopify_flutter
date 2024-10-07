@@ -41,6 +41,22 @@ query($cursor : String, $reverse: Boolean, $country: CountryCode)  @inContext(co
                 name
                 value
               }
+              metafields(identifiers: [
+                ###_VAR_METAFIELDS_###,
+              ]) {
+                id
+                namespace
+                key
+                value
+                type
+              }
+              unitPriceMeasurement {
+                measuredType
+                quantityUnit
+                quantityValue
+                referenceUnit
+                referenceValue
+              }
             }
           }
           pageInfo {
@@ -94,6 +110,15 @@ query($cursor : String, $reverse: Boolean, $country: CountryCode)  @inContext(co
               }
             }
           }
+        }
+        metafields(identifiers: [
+          ###_METAFIELDS_###,
+        ]) {
+          id
+          namespace
+          key
+          value
+          type
         }
       }
     }
