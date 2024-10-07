@@ -50,6 +50,13 @@ query($cursor : String, $reverse: Boolean, $country: CountryCode)  @inContext(co
                 value
                 type
               }
+              unitPriceMeasurement {
+                measuredType
+                quantityUnit
+                quantityValue
+                referenceUnit
+                referenceValue
+              }
             }
           }
           pageInfo {
