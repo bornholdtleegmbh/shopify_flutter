@@ -28,6 +28,9 @@ import '../../graphql_operations/storefront/queries/get_products.dart';
 import '../../models/src/collection/collection.dart';
 import '../../shopify_config.dart';
 
+const String _PRODUCT_METAFIELD_PLACEHOLDER = "###_METAFIELDS_###";
+const String _PRODUCT_VARIANTS_METAFIELD_PLACEHOLDER = "###_VAR_METAFIELDS_###";
+
 /// ShopifyStore provides various methods related to the shopify store.
 class ShopifyStore with ShopifyError {
   ShopifyStore._();
@@ -41,8 +44,8 @@ class ShopifyStore with ShopifyError {
   ///
   /// Simply returns all Products from your Store.
   Future<List<Product>> getAllProducts({
-    Map<String, String> metafields = const {'key': 'value'},
-    Map<String, String> varMetafields = const {'key': 'value'},
+    Map<String, String> metafields = const {},
+    Map<String, String> varMetafields = const {},
     bool reverse = false,
   }) async {
     List<Product> productList = [];
@@ -51,15 +54,14 @@ class ShopifyStore with ShopifyError {
     WatchQueryOptions _options;
     do {
       String productsQuery = getProductsQuery;
-      String metafieldStr = metafields.entries.map((entry) {
-        return '{namespace: "${entry.value}", key: "${entry.key}"}';
-      }).join(',\n');
-      String varMetafieldStr = varMetafields.entries.map((entry) {
-        return '{namespace: "${entry.value}", key: "${entry.key}"}';
-      }).join(',\n');
+      String metafieldStr =
+          metafields.entries.map((entry) => '{namespace: "${entry.value}", key: "${entry.key}"}').join(',\n');
+      String varMetafieldStr =
+          varMetafields.entries.map((entry) => '{namespace: "${entry.value}", key: "${entry.key}"}').join(',\n');
 
-      productsQuery = productsQuery.replaceAll('###_METAFIELDS_###', metafieldStr);
-      productsQuery = productsQuery.replaceAll('###_VAR_METAFIELDS_###', varMetafieldStr);
+      productsQuery = productsQuery
+          .replaceAll(_PRODUCT_METAFIELD_PLACEHOLDER, metafieldStr)
+          .replaceAll(_PRODUCT_VARIANTS_METAFIELD_PLACEHOLDER, varMetafieldStr);
 
       _options = WatchQueryOptions(
         document: gql(productsQuery),
