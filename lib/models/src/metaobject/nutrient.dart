@@ -12,8 +12,8 @@ class Nutrient with _$Nutrient {
   factory Nutrient({
     required String id,
     required String name,
-    @Default([]) List<String> inhibitingCombinations,
-    @Default([]) List<String> recommendedCombinations,
+    required String inhibitingCombinations,
+    required String recommendedCombinations,
   }) = _Nutrient;
 
   /// The Nutrient from graphjson
@@ -21,20 +21,16 @@ class Nutrient with _$Nutrient {
     try {
       return Nutrient(
         id: json['id'] ?? '',
-        name: json['name'] ?? '',
-        inhibitingCombinations: List<String>.from(
-          (json['inhibiting_combinations'] ?? []).map((x) => x.toString()),
-        ),
-        recommendedCombinations: List<String>.from(
-          (json['recommended_combinations'] ?? []).map((x) => x.toString()),
-        ),
+        name: json['name']['value'] ?? '',
+        inhibitingCombinations: json['inhibiting_combinations']['value'] ?? '',
+        recommendedCombinations: json['recommended_combinations']['value'] ?? '',
       );
     } catch (e) {
       return Nutrient(
         id: '',
         name: '',
-        inhibitingCombinations: [],
-        recommendedCombinations: [],
+        inhibitingCombinations: '',
+        recommendedCombinations: '',
       );
     }
   }

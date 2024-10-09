@@ -10,15 +10,8 @@ _$NutrientImpl _$$NutrientImplFromJson(Map<String, dynamic> json) =>
     _$NutrientImpl(
       id: json['id'] as String,
       name: json['name'] as String,
-      inhibitingCombinations: (json['inhibitingCombinations'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
-      recommendedCombinations:
-          (json['recommendedCombinations'] as List<dynamic>?)
-                  ?.map((e) => e as String)
-                  .toList() ??
-              const [],
+      inhibitingCombinations: json['inhibitingCombinations'] as String,
+      recommendedCombinations: json['recommendedCombinations'] as String,
     );
 
 Map<String, dynamic> _$$NutrientImplToJson(_$NutrientImpl instance) =>

@@ -22,9 +22,8 @@ Nutrient _$NutrientFromJson(Map<String, dynamic> json) {
 mixin _$Nutrient {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  List<String> get inhibitingCombinations => throw _privateConstructorUsedError;
-  List<String> get recommendedCombinations =>
-      throw _privateConstructorUsedError;
+  String get inhibitingCombinations => throw _privateConstructorUsedError;
+  String get recommendedCombinations => throw _privateConstructorUsedError;
 
   /// Serializes this Nutrient to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,8 +43,8 @@ abstract class $NutrientCopyWith<$Res> {
   $Res call(
       {String id,
       String name,
-      List<String> inhibitingCombinations,
-      List<String> recommendedCombinations});
+      String inhibitingCombinations,
+      String recommendedCombinations});
 }
 
 /// @nodoc
@@ -80,11 +79,11 @@ class _$NutrientCopyWithImpl<$Res, $Val extends Nutrient>
       inhibitingCombinations: null == inhibitingCombinations
           ? _value.inhibitingCombinations
           : inhibitingCombinations // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as String,
       recommendedCombinations: null == recommendedCombinations
           ? _value.recommendedCombinations
           : recommendedCombinations // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as String,
     ) as $Val);
   }
 }
@@ -100,8 +99,8 @@ abstract class _$$NutrientImplCopyWith<$Res>
   $Res call(
       {String id,
       String name,
-      List<String> inhibitingCombinations,
-      List<String> recommendedCombinations});
+      String inhibitingCombinations,
+      String recommendedCombinations});
 }
 
 /// @nodoc
@@ -132,13 +131,13 @@ class __$$NutrientImplCopyWithImpl<$Res>
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       inhibitingCombinations: null == inhibitingCombinations
-          ? _value._inhibitingCombinations
+          ? _value.inhibitingCombinations
           : inhibitingCombinations // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as String,
       recommendedCombinations: null == recommendedCombinations
-          ? _value._recommendedCombinations
+          ? _value.recommendedCombinations
           : recommendedCombinations // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as String,
     ));
   }
 }
@@ -149,11 +148,9 @@ class _$NutrientImpl extends _Nutrient {
   _$NutrientImpl(
       {required this.id,
       required this.name,
-      final List<String> inhibitingCombinations = const [],
-      final List<String> recommendedCombinations = const []})
-      : _inhibitingCombinations = inhibitingCombinations,
-        _recommendedCombinations = recommendedCombinations,
-        super._();
+      required this.inhibitingCombinations,
+      required this.recommendedCombinations})
+      : super._();
 
   factory _$NutrientImpl.fromJson(Map<String, dynamic> json) =>
       _$$NutrientImplFromJson(json);
@@ -162,25 +159,10 @@ class _$NutrientImpl extends _Nutrient {
   final String id;
   @override
   final String name;
-  final List<String> _inhibitingCombinations;
   @override
-  @JsonKey()
-  List<String> get inhibitingCombinations {
-    if (_inhibitingCombinations is EqualUnmodifiableListView)
-      return _inhibitingCombinations;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_inhibitingCombinations);
-  }
-
-  final List<String> _recommendedCombinations;
+  final String inhibitingCombinations;
   @override
-  @JsonKey()
-  List<String> get recommendedCombinations {
-    if (_recommendedCombinations is EqualUnmodifiableListView)
-      return _recommendedCombinations;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_recommendedCombinations);
-  }
+  final String recommendedCombinations;
 
   @override
   String toString() {
@@ -194,20 +176,17 @@ class _$NutrientImpl extends _Nutrient {
             other is _$NutrientImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            const DeepCollectionEquality().equals(
-                other._inhibitingCombinations, _inhibitingCombinations) &&
-            const DeepCollectionEquality().equals(
-                other._recommendedCombinations, _recommendedCombinations));
+            (identical(other.inhibitingCombinations, inhibitingCombinations) ||
+                other.inhibitingCombinations == inhibitingCombinations) &&
+            (identical(
+                    other.recommendedCombinations, recommendedCombinations) ||
+                other.recommendedCombinations == recommendedCombinations));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      name,
-      const DeepCollectionEquality().hash(_inhibitingCombinations),
-      const DeepCollectionEquality().hash(_recommendedCombinations));
+      runtimeType, id, name, inhibitingCombinations, recommendedCombinations);
 
   /// Create a copy of Nutrient
   /// with the given fields replaced by the non-null parameter values.
@@ -229,8 +208,8 @@ abstract class _Nutrient extends Nutrient {
   factory _Nutrient(
       {required final String id,
       required final String name,
-      final List<String> inhibitingCombinations,
-      final List<String> recommendedCombinations}) = _$NutrientImpl;
+      required final String inhibitingCombinations,
+      required final String recommendedCombinations}) = _$NutrientImpl;
   _Nutrient._() : super._();
 
   factory _Nutrient.fromJson(Map<String, dynamic> json) =
@@ -241,9 +220,9 @@ abstract class _Nutrient extends Nutrient {
   @override
   String get name;
   @override
-  List<String> get inhibitingCombinations;
+  String get inhibitingCombinations;
   @override
-  List<String> get recommendedCombinations;
+  String get recommendedCombinations;
 
   /// Create a copy of Nutrient
   /// with the given fields replaced by the non-null parameter values.
