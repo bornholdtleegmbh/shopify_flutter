@@ -22,8 +22,8 @@ class Nutrient with _$Nutrient {
       return Nutrient(
         id: json['id'] ?? '',
         name: json['name']['value'] ?? '',
-        inhibitingCombinations: json['inhibiting_combinations']['value'] ?? '',
-        recommendedCombinations: json['recommended_combinations']['value'] ?? '',
+        inhibitingCombinations: json['inhibiting_combinations']?['value'] ?? '',
+        recommendedCombinations: json['recommended_combinations']?['value'] ?? '',
       );
     } catch (e) {
       return Nutrient(
