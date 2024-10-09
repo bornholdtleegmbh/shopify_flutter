@@ -148,8 +148,8 @@ class _$NutrientImpl extends _Nutrient {
   _$NutrientImpl(
       {required this.id,
       required this.name,
-      required this.inhibitingCombinations,
-      required this.recommendedCombinations})
+      this.inhibitingCombinations = '',
+      this.recommendedCombinations = ''})
       : super._();
 
   factory _$NutrientImpl.fromJson(Map<String, dynamic> json) =>
@@ -160,8 +160,10 @@ class _$NutrientImpl extends _Nutrient {
   @override
   final String name;
   @override
+  @JsonKey()
   final String inhibitingCombinations;
   @override
+  @JsonKey()
   final String recommendedCombinations;
 
   @override
@@ -208,8 +210,8 @@ abstract class _Nutrient extends Nutrient {
   factory _Nutrient(
       {required final String id,
       required final String name,
-      required final String inhibitingCombinations,
-      required final String recommendedCombinations}) = _$NutrientImpl;
+      final String inhibitingCombinations,
+      final String recommendedCombinations}) = _$NutrientImpl;
   _Nutrient._() : super._();
 
   factory _Nutrient.fromJson(Map<String, dynamic> json) =

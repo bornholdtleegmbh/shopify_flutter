@@ -523,7 +523,7 @@ class ShopifyStore with ShopifyError {
       checkForError(result);
       if (result.data != null && result.data!['metaobjects'] != null) {
         Nutrients tempNutrient = Nutrients.fromGraphJson(result.data!);
-        nutrientList = tempNutrient.nodes;
+        nutrientList = tempNutrient.nodes.toList();
       } else {
         throw Exception('No data or metaobjects field in response');
       }

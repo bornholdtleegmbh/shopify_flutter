@@ -12,8 +12,8 @@ class Nutrient with _$Nutrient {
   factory Nutrient({
     required String id,
     required String name,
-    required String inhibitingCombinations,
-    required String recommendedCombinations,
+    @Default('') String inhibitingCombinations,
+    @Default('') String recommendedCombinations,
   }) = _Nutrient;
 
   /// The Nutrient from graphjson
