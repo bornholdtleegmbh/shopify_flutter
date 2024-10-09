@@ -25,10 +25,11 @@ import 'package:shopify_flutter/shopify/src/shopify_localization.dart';
 
 import '../../graphql_operations/storefront/queries/get_featured_collections.dart';
 import '../../graphql_operations/storefront/queries/get_n_products.dart';
-import '../../graphql_operations/storefront/queries/get_nutrient_by_id.dart';
+import '../../graphql_operations/storefront/queries/get_nutrients.dart';
 import '../../graphql_operations/storefront/queries/get_products.dart';
 import '../../models/src/collection/collection.dart';
 import '../../models/src/metaobject/nutrient.dart';
+import '../../models/src/metaobject/nutrients/nutrients.dart';
 import '../../shopify_config.dart';
 
 const String _PRODUCT_METAFIELD_PLACEHOLDER = "###_METAFIELDS_###";
@@ -508,29 +509,28 @@ class ShopifyStore with ShopifyError {
     return Products.fromGraphJson((result.data ?? const {})['products']).productList;
   }
 
-  /// Returns a [Nutrient] by id
-  Future<Nutrient?> getNutrientById(String nutrientId) async {
+  /// Returns a List of [Nutrient]
+  Future<List<Nutrient>> getAllNutrients() async {
     try {
+      List<Nutrient> nutrientList = [];
       WatchQueryOptions _options = WatchQueryOptions(
-        document: gql(getNutrientQuery),
-        variables: {
-          'nutrientId': nutrientId,
-        },
+        document: gql(getNutrientsQuery),
         fetchPolicy: ShopifyConfig.fetchPolicy,
       );
 
       final QueryResult result = await _graphQLClient!.query(_options);
 
       checkForError(result);
-
-      if (result.hasException) {
-        return null;
+      if (result.data != null && result.data!['metaobjects'] != null) {
+        Nutrients tempNutrient = Nutrients.fromGraphJson(result.data!);
+        nutrientList = tempNutrient.nodes;
+      } else {
+        throw Exception('No data or metaobjects field in response');
       }
-
-      return Nutrient.fromGraphJson(result.data?['metaObject'] ?? {});
+      return nutrientList;
     } catch (e) {
-      return null;
+      log('Error fetching nutrients: $e');
+      return [];
     }
   }
-
 }
