@@ -21,6 +21,8 @@ Nutrients _$NutrientsFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Nutrients {
   List<Nutrient> get nodes => throw _privateConstructorUsedError;
+  bool get hasNextPage => throw _privateConstructorUsedError;
+  String? get endCursor => throw _privateConstructorUsedError;
 
   /// Serializes this Nutrients to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -37,7 +39,7 @@ abstract class $NutrientsCopyWith<$Res> {
   factory $NutrientsCopyWith(Nutrients value, $Res Function(Nutrients) then) =
       _$NutrientsCopyWithImpl<$Res, Nutrients>;
   @useResult
-  $Res call({List<Nutrient> nodes});
+  $Res call({List<Nutrient> nodes, bool hasNextPage, String? endCursor});
 }
 
 /// @nodoc
@@ -56,12 +58,22 @@ class _$NutrientsCopyWithImpl<$Res, $Val extends Nutrients>
   @override
   $Res call({
     Object? nodes = null,
+    Object? hasNextPage = null,
+    Object? endCursor = freezed,
   }) {
     return _then(_value.copyWith(
       nodes: null == nodes
           ? _value.nodes
           : nodes // ignore: cast_nullable_to_non_nullable
               as List<Nutrient>,
+      hasNextPage: null == hasNextPage
+          ? _value.hasNextPage
+          : hasNextPage // ignore: cast_nullable_to_non_nullable
+              as bool,
+      endCursor: freezed == endCursor
+          ? _value.endCursor
+          : endCursor // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -74,7 +86,7 @@ abstract class _$$NutrientsImplCopyWith<$Res>
       __$$NutrientsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Nutrient> nodes});
+  $Res call({List<Nutrient> nodes, bool hasNextPage, String? endCursor});
 }
 
 /// @nodoc
@@ -91,12 +103,22 @@ class __$$NutrientsImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? nodes = null,
+    Object? hasNextPage = null,
+    Object? endCursor = freezed,
   }) {
     return _then(_$NutrientsImpl(
       nodes: null == nodes
           ? _value._nodes
           : nodes // ignore: cast_nullable_to_non_nullable
               as List<Nutrient>,
+      hasNextPage: null == hasNextPage
+          ? _value.hasNextPage
+          : hasNextPage // ignore: cast_nullable_to_non_nullable
+              as bool,
+      endCursor: freezed == endCursor
+          ? _value.endCursor
+          : endCursor // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -104,7 +126,10 @@ class __$$NutrientsImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$NutrientsImpl extends _Nutrients {
-  _$NutrientsImpl({required final List<Nutrient> nodes})
+  _$NutrientsImpl(
+      {required final List<Nutrient> nodes,
+      required this.hasNextPage,
+      this.endCursor})
       : _nodes = nodes,
         super._();
 
@@ -120,8 +145,13 @@ class _$NutrientsImpl extends _Nutrients {
   }
 
   @override
+  final bool hasNextPage;
+  @override
+  final String? endCursor;
+
+  @override
   String toString() {
-    return 'Nutrients(nodes: $nodes)';
+    return 'Nutrients(nodes: $nodes, hasNextPage: $hasNextPage, endCursor: $endCursor)';
   }
 
   @override
@@ -129,13 +159,17 @@ class _$NutrientsImpl extends _Nutrients {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$NutrientsImpl &&
-            const DeepCollectionEquality().equals(other._nodes, _nodes));
+            const DeepCollectionEquality().equals(other._nodes, _nodes) &&
+            (identical(other.hasNextPage, hasNextPage) ||
+                other.hasNextPage == hasNextPage) &&
+            (identical(other.endCursor, endCursor) ||
+                other.endCursor == endCursor));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_nodes));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_nodes), hasNextPage, endCursor);
 
   /// Create a copy of Nutrients
   /// with the given fields replaced by the non-null parameter values.
@@ -154,7 +188,10 @@ class _$NutrientsImpl extends _Nutrients {
 }
 
 abstract class _Nutrients extends Nutrients {
-  factory _Nutrients({required final List<Nutrient> nodes}) = _$NutrientsImpl;
+  factory _Nutrients(
+      {required final List<Nutrient> nodes,
+      required final bool hasNextPage,
+      final String? endCursor}) = _$NutrientsImpl;
   _Nutrients._() : super._();
 
   factory _Nutrients.fromJson(Map<String, dynamic> json) =
@@ -162,6 +199,10 @@ abstract class _Nutrients extends Nutrients {
 
   @override
   List<Nutrient> get nodes;
+  @override
+  bool get hasNextPage;
+  @override
+  String? get endCursor;
 
   /// Create a copy of Nutrients
   /// with the given fields replaced by the non-null parameter values.

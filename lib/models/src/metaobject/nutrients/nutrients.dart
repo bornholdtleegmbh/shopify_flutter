@@ -14,11 +14,15 @@ class Nutrients with _$Nutrients {
   /// The nutrients constructor
   factory Nutrients({
     required List<Nutrient> nodes,
+    required bool hasNextPage,
+    String? endCursor,
   }) = _Nutrients;
 
   /// The nutrients from graphjson factory
   factory Nutrients.fromGraphJson(Map<String, dynamic> json) => Nutrients(
     nodes: _getNutrientList(json),
+    hasNextPage: json['metaobjects']['pageInfo']['hasNextPage'] ?? false,
+    endCursor: json['metaobjects']['pageInfo']['endCursor'] as String?,
   );
 
   static List<Nutrient> _getNutrientList(Map<String, dynamic> json) {

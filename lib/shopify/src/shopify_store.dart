@@ -510,23 +510,32 @@ class ShopifyStore with ShopifyError {
   }
 
   /// Returns a List of [Nutrient]
-  Future<List<Nutrient>> getAllNutrients({int limit = 100}) async {
+  Future<List<Nutrient>> getAllNutrients() async {
+    List<Nutrient> nutrientList = [];
+    String? afterCursor;
     try {
-      List<Nutrient> nutrientList = [];
-      WatchQueryOptions _options = WatchQueryOptions(
-        document: gql(getNutrientsQuery),
-        variables: {'first': limit},
-        fetchPolicy: ShopifyConfig.fetchPolicy,
-      );
+      bool hasNextPage = true;
 
-      final QueryResult result = await _graphQLClient!.query(_options);
+      while (hasNextPage) {
+        WatchQueryOptions _options = WatchQueryOptions(
+          document: gql(getNutrientsQuery),
+          variables: {
+            'after': afterCursor,
+          },
+          fetchPolicy: ShopifyConfig.fetchPolicy,
+        );
+        final QueryResult result = await _graphQLClient!.query(_options);
 
-      checkForError(result);
-      if (result.data != null && result.data!['metaobjects'] != null) {
-        Nutrients tempNutrient = Nutrients.fromGraphJson(result.data!);
-        nutrientList = tempNutrient.nodes.toList();
-      } else {
-        throw Exception('No data or metaobjects field in response');
+        checkForError(result);
+        if (result.data != null && result.data!['metaobjects'] != null) {
+          Nutrients tempNutrient = Nutrients.fromGraphJson(result.data!);
+          nutrientList.addAll(tempNutrient.nodes.toList());
+
+          hasNextPage = tempNutrient.hasNextPage;
+          afterCursor = tempNutrient.endCursor;
+        } else {
+          throw Exception('No data or metaobjects field in response');
+        }
       }
       return nutrientList;
     } catch (e) {
