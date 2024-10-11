@@ -510,11 +510,12 @@ class ShopifyStore with ShopifyError {
   }
 
   /// Returns a List of [Nutrient]
-  Future<List<Nutrient>> getAllNutrients() async {
+  Future<List<Nutrient>> getAllNutrients({int limit = 100}) async {
     try {
       List<Nutrient> nutrientList = [];
       WatchQueryOptions _options = WatchQueryOptions(
         document: gql(getNutrientsQuery),
+        variables: {'first': limit},
         fetchPolicy: ShopifyConfig.fetchPolicy,
       );
 

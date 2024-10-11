@@ -1,7 +1,7 @@
-/// Query to get Metaobject by id
+/// Query to get all nutrients
 const String getNutrientsQuery = r'''
-query {
-  metaobjects(type: "nutrient", first: 100) {
+query ($first: Int) {
+  metaobjects(type: "nutrient", first: $first) {
     nodes {
       id
       name: field(key: "name") { value }
