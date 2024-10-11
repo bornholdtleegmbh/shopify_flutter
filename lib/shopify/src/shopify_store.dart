@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -24,8 +25,11 @@ import 'package:shopify_flutter/shopify/src/shopify_localization.dart';
 
 import '../../graphql_operations/storefront/queries/get_featured_collections.dart';
 import '../../graphql_operations/storefront/queries/get_n_products.dart';
+import '../../graphql_operations/storefront/queries/get_nutrients.dart';
 import '../../graphql_operations/storefront/queries/get_products.dart';
 import '../../models/src/collection/collection.dart';
+import '../../models/src/metaobject/nutrient.dart';
+import '../../models/src/metaobject/nutrients/nutrients.dart';
 import '../../shopify_config.dart';
 
 const String _PRODUCT_METAFIELD_PLACEHOLDER = "###_METAFIELDS_###";
@@ -503,5 +507,40 @@ class ShopifyStore with ShopifyError {
     final QueryResult result = await ShopifyConfig.graphQLClient!.query(_options);
     checkForError(result);
     return Products.fromGraphJson((result.data ?? const {})['products']).productList;
+  }
+
+  /// Returns a List of [Nutrient]
+  Future<List<Nutrient>> getAllNutrients() async {
+    List<Nutrient> nutrientList = [];
+    String? afterCursor;
+    try {
+      bool hasNextPage = true;
+
+      while (hasNextPage) {
+        WatchQueryOptions _options = WatchQueryOptions(
+          document: gql(getNutrientsQuery),
+          variables: {
+            'after': afterCursor,
+          },
+          fetchPolicy: ShopifyConfig.fetchPolicy,
+        );
+        final QueryResult result = await _graphQLClient!.query(_options);
+
+        checkForError(result);
+        if (result.data != null && result.data!['metaobjects'] != null) {
+          Nutrients tempNutrient = Nutrients.fromGraphJson(result.data!);
+          nutrientList.addAll(tempNutrient.nodes.toList());
+
+          hasNextPage = tempNutrient.hasNextPage;
+          afterCursor = tempNutrient.endCursor;
+        } else {
+          throw Exception('No data or metaobjects field in response');
+        }
+      }
+      return nutrientList;
+    } catch (e) {
+      log('Error fetching nutrients: $e');
+      return [];
+    }
   }
 }
