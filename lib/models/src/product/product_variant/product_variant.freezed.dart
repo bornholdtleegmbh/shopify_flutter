@@ -22,6 +22,7 @@ ProductVariant _$ProductVariantFromJson(Map<String, dynamic> json) {
 mixin _$ProductVariant {
   PriceV2 get price => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
+  String get displayName => throw _privateConstructorUsedError;
   double get weight => throw _privateConstructorUsedError;
   String get weightUnit => throw _privateConstructorUsedError;
   bool get availableForSale => throw _privateConstructorUsedError;
@@ -58,6 +59,7 @@ abstract class $ProductVariantCopyWith<$Res> {
   $Res call(
       {PriceV2 price,
       String title,
+      String displayName,
       double weight,
       String weightUnit,
       bool availableForSale,
@@ -98,6 +100,7 @@ class _$ProductVariantCopyWithImpl<$Res, $Val extends ProductVariant>
   $Res call({
     Object? price = null,
     Object? title = null,
+    Object? displayName = null,
     Object? weight = null,
     Object? weightUnit = null,
     Object? availableForSale = null,
@@ -121,6 +124,10 @@ class _$ProductVariantCopyWithImpl<$Res, $Val extends ProductVariant>
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      displayName: null == displayName
+          ? _value.displayName
+          : displayName // ignore: cast_nullable_to_non_nullable
               as String,
       weight: null == weight
           ? _value.weight
@@ -274,6 +281,7 @@ abstract class _$$ProductVariantImplCopyWith<$Res>
   $Res call(
       {PriceV2 price,
       String title,
+      String displayName,
       double weight,
       String weightUnit,
       bool availableForSale,
@@ -318,6 +326,7 @@ class __$$ProductVariantImplCopyWithImpl<$Res>
   $Res call({
     Object? price = null,
     Object? title = null,
+    Object? displayName = null,
     Object? weight = null,
     Object? weightUnit = null,
     Object? availableForSale = null,
@@ -341,6 +350,10 @@ class __$$ProductVariantImplCopyWithImpl<$Res>
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      displayName: null == displayName
+          ? _value.displayName
+          : displayName // ignore: cast_nullable_to_non_nullable
               as String,
       weight: null == weight
           ? _value.weight
@@ -408,6 +421,7 @@ class _$ProductVariantImpl extends _ProductVariant {
   _$ProductVariantImpl(
       {required this.price,
       required this.title,
+      required this.displayName,
       required this.weight,
       required this.weightUnit,
       required this.availableForSale,
@@ -433,6 +447,8 @@ class _$ProductVariantImpl extends _ProductVariant {
   final PriceV2 price;
   @override
   final String title;
+  @override
+  final String displayName;
   @override
   final double weight;
   @override
@@ -478,7 +494,7 @@ class _$ProductVariantImpl extends _ProductVariant {
 
   @override
   String toString() {
-    return 'ProductVariant(price: $price, title: $title, weight: $weight, weightUnit: $weightUnit, availableForSale: $availableForSale, requiresShipping: $requiresShipping, id: $id, quantityAvailable: $quantityAvailable, metafields: $metafields, sku: $sku, unitPrice: $unitPrice, unitPriceMeasurement: $unitPriceMeasurement, selectedOptions: $selectedOptions, compareAtPrice: $compareAtPrice, image: $image, product: $product)';
+    return 'ProductVariant(price: $price, title: $title, displayName: $displayName, weight: $weight, weightUnit: $weightUnit, availableForSale: $availableForSale, requiresShipping: $requiresShipping, id: $id, quantityAvailable: $quantityAvailable, metafields: $metafields, sku: $sku, unitPrice: $unitPrice, unitPriceMeasurement: $unitPriceMeasurement, selectedOptions: $selectedOptions, compareAtPrice: $compareAtPrice, image: $image, product: $product)';
   }
 
   @override
@@ -488,6 +504,8 @@ class _$ProductVariantImpl extends _ProductVariant {
             other is _$ProductVariantImpl &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.displayName, displayName) ||
+                other.displayName == displayName) &&
             (identical(other.weight, weight) || other.weight == weight) &&
             (identical(other.weightUnit, weightUnit) ||
                 other.weightUnit == weightUnit) &&
@@ -519,6 +537,7 @@ class _$ProductVariantImpl extends _ProductVariant {
       runtimeType,
       price,
       title,
+      displayName,
       weight,
       weightUnit,
       availableForSale,
@@ -555,6 +574,7 @@ abstract class _ProductVariant extends ProductVariant {
   factory _ProductVariant(
       {required final PriceV2 price,
       required final String title,
+      required final String displayName,
       required final double weight,
       required final String weightUnit,
       required final bool availableForSale,
@@ -578,6 +598,8 @@ abstract class _ProductVariant extends ProductVariant {
   PriceV2 get price;
   @override
   String get title;
+  @override
+  String get displayName;
   @override
   double get weight;
   @override

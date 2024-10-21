@@ -18,6 +18,7 @@ query($cursor: String, $reverse: Boolean, $country: CountryCode)  @inContext(cou
             node {
               id
               title
+              displayName
               image {
                 altText
                 id

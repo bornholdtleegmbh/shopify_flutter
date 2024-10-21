@@ -22,6 +22,7 @@ class ProductVariant with _$ProductVariant {
   factory ProductVariant({
     required PriceV2 price,
     required String title,
+    required String displayName,
     required double weight,
     required String weightUnit,
     required bool availableForSale,
@@ -47,6 +48,7 @@ class ProductVariant with _$ProductVariant {
           ? PriceV2.fromJson(nodeJson['priceV2'])
           : PriceV2.fromJson(nodeJson['price']),
       title: nodeJson['title'],
+      displayName: nodeJson['displayName'],
       image: nodeJson['image'] != null
           ? ShopifyImage.fromJson(nodeJson['image'])
           : null,
