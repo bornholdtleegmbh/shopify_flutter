@@ -1,3 +1,14 @@
+# 2.2.8
+* Cart Line Input Model updated
+
+# 2.2.7
+* Cart Customer: made properties nullable
+  - phone, email, firstName and lastName
+
+# 2.2.6
+* Cart issue resolved when passed customer access token
+
+
 # 2.2.5
 
 * Resolved cartline issue when adding line items
