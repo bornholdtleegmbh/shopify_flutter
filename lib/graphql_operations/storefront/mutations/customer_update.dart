@@ -47,6 +47,12 @@ String createValidMutationString(Map variableMap) {
           thirdString += r"customerAccessToken: $customerAccessToken";
         }
         break;
+      case "metafields":
+        {
+          firstString += r"$metafields: [MetafieldsInput!],";
+          secondString += r"metafields: $metafields,";
+        }
+        break;
     }
   });
   firstString = firstString.substring(0, firstString.length - 1);

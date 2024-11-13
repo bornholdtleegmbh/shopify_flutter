@@ -7,6 +7,7 @@ import 'package:shopify_flutter/mixins/src/shopify_error.dart';
 import 'package:shopify_flutter/models/src/shopify_user/address/address.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
+import '../../graphql_operations/storefront/mutations/customer_metafields_set.dart';
 import '../../shopify_config.dart';
 
 /// ShopifyCustomer class provides various methods for working with a user/customer.
@@ -66,6 +67,7 @@ class ShopifyCustomer with ShopifyError {
     String? phoneNumber,
     String? customerAccessToken,
     bool? acceptsMarketing,
+    List<Map<String, dynamic>>? metafields,
   }) async {
     Map<String, dynamic> variableMap = {};
 
@@ -80,6 +82,9 @@ class ShopifyCustomer with ShopifyError {
     }
     if (password != null && password.isNotEmpty) {
       dataMap['password'] = password;
+    }
+    if (metafields != null && metafields.isNotEmpty) {
+      dataMap['metafields'] = metafields;
     }
 
     dataMap.forEach((k, v) => v != {} ? variableMap[k] = v : {});
@@ -155,7 +160,7 @@ class ShopifyCustomer with ShopifyError {
     );
   }
 
-  /// updates the default adderess to the [addressId] provided from the customer to which [customerAccessToken] belongs to.
+  /// updates the default address to the [addressId] provided from the customer to which [customerAccessToken] belongs to.
   Future<void> customerDefaultAddressUpdate({
     required String addressId,
     required String customerAccessToken,
@@ -170,6 +175,21 @@ class ShopifyCustomer with ShopifyError {
     checkForError(
       result,
       key: 'customerDefaultAddressUpdate',
+      errorKey: 'customerUserErrors',
+    );
+  }
+
+  /// Updates the metafields of the customer to which [customerAccessToken] belongs to.
+  Future<void> customerMetafieldsSet({
+    required Map<String, dynamic> variables,
+  }) async {
+    final MutationOptions _options = MutationOptions(
+        document: gql(customerMetafieldsSetQuery),
+        variables: variables);
+    QueryResult result = await _graphQLClient!.mutate(_options);
+    checkForError(
+      result,
+      key: 'customerMetafieldsSet',
       errorKey: 'customerUserErrors',
     );
   }
