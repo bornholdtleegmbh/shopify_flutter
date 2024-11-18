@@ -60,7 +60,6 @@ query($customerAccessToken : String!){
           value
           type
         }
-    }
   }
 }
 ''';
