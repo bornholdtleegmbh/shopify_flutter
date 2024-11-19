@@ -20,6 +20,8 @@ class ShopifyCustomer with ShopifyError {
 
   GraphQLClient? get _graphQLClient => ShopifyConfig.graphQLClient;
 
+  GraphQLClient? get _graphQlClientAdmin => ShopifyConfig.graphQLClientAdmin;
+
   /// Updated the Address of a Customer, please input only the fields that you wish to update.
   Future<void> customerAddressUpdate({
     String? address1,
@@ -168,16 +170,34 @@ class ShopifyCustomer with ShopifyError {
     );
   }
 
-  /// Updates the metafields of the customer to which [customerAccessToken] belongs to.
-  Future<void> customerMetafieldsSet({
-    required Map<String, dynamic> variables,
+  /// Updates one of the metafields of the customer.
+  Future<void> customerMetafieldSet({
+    required String key,
+    required String namespace,
+    required String id,
+    required String type,
+    required String value,
   }) async {
-    final MutationOptions _options = MutationOptions(document: gql(customerMetafieldsSetQuery), variables: variables);
-    QueryResult result = await _graphQLClient!.mutate(_options);
+    if (_graphQlClientAdmin == null) throw 'Admin access token is not provided';
+    final MutationOptions _options = MutationOptions(
+      document: gql(customerMetafieldsSetQuery),
+      variables: {
+        "metafields": [
+          {
+            "key": key,
+            "namespace": namespace,
+            "ownerId": id,
+            "type": type,
+            "value": value,
+          }
+        ]
+      },
+    );
+    QueryResult result = await _graphQlClientAdmin!.mutate(_options);
     checkForError(
       result,
       key: 'customerMetafieldsSet',
-      errorKey: 'customerUserErrors',
+      errorKey: 'userErrors',
     );
   }
 
