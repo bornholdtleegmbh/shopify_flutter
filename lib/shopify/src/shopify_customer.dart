@@ -68,7 +68,6 @@ class ShopifyCustomer with ShopifyError {
     String? phoneNumber,
     String? customerAccessToken,
     bool? acceptsMarketing,
-    List<Map<String, dynamic>>? metafields,
   }) async {
     Map<String, dynamic> variableMap = {};
 
@@ -83,9 +82,6 @@ class ShopifyCustomer with ShopifyError {
     }
     if (password != null && password.isNotEmpty) {
       dataMap['password'] = password;
-    }
-    if (metafields != null && metafields.isNotEmpty) {
-      dataMap['metafields'] = metafields;
     }
 
     dataMap.forEach((k, v) => v != {} ? variableMap[k] = v : {});
@@ -198,20 +194,6 @@ class ShopifyCustomer with ShopifyError {
       result,
       key: 'customerMetafieldsSet',
       errorKey: 'userErrors',
-    );
-  }
-
-  /// Updates the metafields of the customer
-  Future<void> customerUpdateMetafields({required String id, required List<String> metafields}) async {
-    final MutationOptions _options = MutationOptions(document: gql(customerUpdateMetafieldsMutation), variables: {
-      'metafields': metafields,
-      'id': id,
-    });
-    final QueryResult result = await _graphQLClient!.mutate(_options);
-    checkForError(
-      result,
-      key: 'customerUpdate',
-      errorKey: 'UserErrors',
     );
   }
 }
