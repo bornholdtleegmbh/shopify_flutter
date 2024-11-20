@@ -59,19 +59,6 @@ mutation myNewMutation($firstString) {
       field
       message
     }
-    customer {
-      id
-      metafields(first: 3) {
-        edges {
-          node {
-            id
-            namespace
-            key
-            value
-          }
-        }
-      }
-    }
   }
 }
 ''';

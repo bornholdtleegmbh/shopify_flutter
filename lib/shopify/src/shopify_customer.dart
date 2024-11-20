@@ -8,7 +8,6 @@ import 'package:shopify_flutter/mixins/src/shopify_error.dart';
 import 'package:shopify_flutter/models/src/shopify_user/address/address.dart';
 
 import '../../graphql_operations/storefront/mutations/customer_metafields_set.dart';
-import '../../graphql_operations/storefront/mutations/customer_update_metafields.dart';
 import '../../shopify_config.dart';
 
 /// ShopifyCustomer class provides various methods for working with a user/customer.
@@ -86,8 +85,9 @@ class ShopifyCustomer with ShopifyError {
 
     dataMap.forEach((k, v) => v != {} ? variableMap[k] = v : {});
 
-    final MutationOptions _options =
-        MutationOptions(document: gql(createValidMutationString(variableMap)), variables: variableMap);
+    final MutationOptions _options = MutationOptions(
+        document: gql(createValidMutationString(variableMap)),
+        variables: variableMap);
     QueryResult result = await _graphQLClient!.mutate(_options);
     checkForError(
       result,
