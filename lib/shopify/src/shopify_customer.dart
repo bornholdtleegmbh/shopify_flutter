@@ -5,10 +5,8 @@ import 'package:shopify_flutter/graphql_operations/storefront/mutations/customer
 import 'package:shopify_flutter/graphql_operations/storefront/mutations/customer_default_address_update.dart';
 import 'package:shopify_flutter/graphql_operations/storefront/mutations/customer_update.dart';
 import 'package:shopify_flutter/graphql_operations/storefront/queries/get_customer.dart';
-import 'package:shopify_flutter/graphql_operations/storefront/queries/get_customer_metafield.dart';
 import 'package:shopify_flutter/mixins/src/shopify_error.dart';
 import 'package:shopify_flutter/models/models.dart';
-import 'package:shopify_flutter/models/src/shopify_user/address/address.dart';
 
 import '../../graphql_operations/storefront/mutations/customer_metafields_set.dart';
 import '../../shopify_config.dart';
@@ -200,19 +198,31 @@ class ShopifyCustomer with ShopifyError {
     );
   }
 
-  Future<Metafield> getCustomerMetafield(String customerAccessToken, String namespace, String key) async {
-    final QueryOptions _options = QueryOptions(
-      document: gql(getCustomerQuery),
-      variables: {
-        'customerAccessToken': customerAccessToken,
-      },
-    );
-    final QueryResult result = await _graphQLClient!.query(_options);
-    checkForError(
-      result,
-      key: 'customerMetafields',
-      errorKey: 'customerUserErrors',
-    );
-    return Metafield.fromJson(result.data!['customerMetafields']['edges'][0]['node']);
+  /// Get all the metafields of the customer.
+  Future<List<Metafield>> getCustomerMetafield(String customerAccessToken) async {
+    try {
+      final QueryOptions _options = QueryOptions(
+        document: gql(getCustomerQuery),
+        variables: {
+          'customerAccessToken': customerAccessToken,
+        },
+      );
+      final QueryResult result = await _graphQLClient!.query(_options);
+      checkForError(
+        result,
+        key: 'customer',
+        errorKey: 'customerUserErrors',
+      );
+      int length = result.data!['customer']['metafields'].length;
+      List<Metafield> metafields = [];
+      for (int i = 0; i < length; i++) {
+        metafields.add(
+            Metafield.fromGraphJson(result.data!['customer']['metafields'][i]));
+      }
+      return metafields;
+    } catch (error) {
+      return [];
+    }
+
   }
 }
