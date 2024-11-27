@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:shopify_flutter/models/models.dart';
 import 'package:shopify_flutter/models/src/shopify_user/address/address.dart';
 
 import 'addresses/addresses.dart';
@@ -22,6 +23,7 @@ class ShopifyUser with _$ShopifyUser {
     String? phone,
     List<String>? tags,
     Address? defaultAddress,
+    Metafield? metafields,
   }) = _ShopifyUser;
 
   /// The shopify user from json factory
@@ -38,6 +40,9 @@ class ShopifyUser with _$ShopifyUser {
         lastName: json['lastName'],
         phone: json['phone'],
         tags: _getTagList((json)),
+        metafields: json['metafields'] == null
+            ? null
+            : Metafield.fromJson(json['metafields']),
       );
 
   /// The shopify user from json factory

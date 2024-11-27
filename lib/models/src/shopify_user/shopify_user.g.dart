@@ -22,6 +22,9 @@ _$ShopifyUserImpl _$$ShopifyUserImplFromJson(Map<String, dynamic> json) =>
       defaultAddress: json['defaultAddress'] == null
           ? null
           : Address.fromJson(json['defaultAddress'] as Map<String, dynamic>),
+      metafields: json['metafields'] == null
+          ? null
+          : Metafield.fromJson(json['metafields'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$ShopifyUserImplToJson(_$ShopifyUserImpl instance) =>
@@ -36,4 +39,5 @@ Map<String, dynamic> _$$ShopifyUserImplToJson(_$ShopifyUserImpl instance) =>
       'phone': instance.phone,
       'tags': instance.tags,
       'defaultAddress': instance.defaultAddress,
+      'metafields': instance.metafields,
     };
