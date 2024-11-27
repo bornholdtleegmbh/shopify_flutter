@@ -1,4 +1,4 @@
-/// Mutation to add line items to a checkout
+/// Mutation to set customer metafields
 String customerMetafieldsSetQuery = r'''
 mutation MetafieldsSet($metafields: [MetafieldsSetInput!]!) {
   metafieldsSet(metafields: $metafields) {
