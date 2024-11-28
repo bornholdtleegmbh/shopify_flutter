@@ -30,6 +30,7 @@ mixin _$ShopifyUser {
   String? get phone => throw _privateConstructorUsedError;
   List<String>? get tags => throw _privateConstructorUsedError;
   Address? get defaultAddress => throw _privateConstructorUsedError;
+  List<Metafield>? get metafields => throw _privateConstructorUsedError;
 
   /// Serializes this ShopifyUser to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -57,7 +58,8 @@ abstract class $ShopifyUserCopyWith<$Res> {
       String? lastName,
       String? phone,
       List<String>? tags,
-      Address? defaultAddress});
+      Address? defaultAddress,
+      List<Metafield>? metafields});
 
   $AddressesCopyWith<$Res>? get address;
   $AddressCopyWith<$Res>? get defaultAddress;
@@ -88,6 +90,7 @@ class _$ShopifyUserCopyWithImpl<$Res, $Val extends ShopifyUser>
     Object? phone = freezed,
     Object? tags = freezed,
     Object? defaultAddress = freezed,
+    Object? metafields = freezed,
   }) {
     return _then(_value.copyWith(
       address: freezed == address
@@ -130,6 +133,10 @@ class _$ShopifyUserCopyWithImpl<$Res, $Val extends ShopifyUser>
           ? _value.defaultAddress
           : defaultAddress // ignore: cast_nullable_to_non_nullable
               as Address?,
+      metafields: freezed == metafields
+          ? _value.metafields
+          : metafields // ignore: cast_nullable_to_non_nullable
+              as List<Metafield>?,
     ) as $Val);
   }
 
@@ -180,7 +187,8 @@ abstract class _$$ShopifyUserImplCopyWith<$Res>
       String? lastName,
       String? phone,
       List<String>? tags,
-      Address? defaultAddress});
+      Address? defaultAddress,
+      List<Metafield>? metafields});
 
   @override
   $AddressesCopyWith<$Res>? get address;
@@ -211,6 +219,7 @@ class __$$ShopifyUserImplCopyWithImpl<$Res>
     Object? phone = freezed,
     Object? tags = freezed,
     Object? defaultAddress = freezed,
+    Object? metafields = freezed,
   }) {
     return _then(_$ShopifyUserImpl(
       address: freezed == address
@@ -253,6 +262,10 @@ class __$$ShopifyUserImplCopyWithImpl<$Res>
           ? _value.defaultAddress
           : defaultAddress // ignore: cast_nullable_to_non_nullable
               as Address?,
+      metafields: freezed == metafields
+          ? _value._metafields
+          : metafields // ignore: cast_nullable_to_non_nullable
+              as List<Metafield>?,
     ));
   }
 }
@@ -270,8 +283,10 @@ class _$ShopifyUserImpl implements _ShopifyUser {
       this.lastName,
       this.phone,
       final List<String>? tags,
-      this.defaultAddress})
-      : _tags = tags;
+      this.defaultAddress,
+      final List<Metafield>? metafields})
+      : _tags = tags,
+        _metafields = metafields;
 
   factory _$ShopifyUserImpl.fromJson(Map<String, dynamic> json) =>
       _$$ShopifyUserImplFromJson(json);
@@ -304,10 +319,19 @@ class _$ShopifyUserImpl implements _ShopifyUser {
 
   @override
   final Address? defaultAddress;
+  final List<Metafield>? _metafields;
+  @override
+  List<Metafield>? get metafields {
+    final value = _metafields;
+    if (value == null) return null;
+    if (_metafields is EqualUnmodifiableListView) return _metafields;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'ShopifyUser(address: $address, createdAt: $createdAt, displayName: $displayName, email: $email, firstName: $firstName, id: $id, lastName: $lastName, phone: $phone, tags: $tags, defaultAddress: $defaultAddress)';
+    return 'ShopifyUser(address: $address, createdAt: $createdAt, displayName: $displayName, email: $email, firstName: $firstName, id: $id, lastName: $lastName, phone: $phone, tags: $tags, defaultAddress: $defaultAddress, metafields: $metafields)';
   }
 
   @override
@@ -329,7 +353,9 @@ class _$ShopifyUserImpl implements _ShopifyUser {
             (identical(other.phone, phone) || other.phone == phone) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
             (identical(other.defaultAddress, defaultAddress) ||
-                other.defaultAddress == defaultAddress));
+                other.defaultAddress == defaultAddress) &&
+            const DeepCollectionEquality()
+                .equals(other._metafields, _metafields));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -345,7 +371,8 @@ class _$ShopifyUserImpl implements _ShopifyUser {
       lastName,
       phone,
       const DeepCollectionEquality().hash(_tags),
-      defaultAddress);
+      defaultAddress,
+      const DeepCollectionEquality().hash(_metafields));
 
   /// Create a copy of ShopifyUser
   /// with the given fields replaced by the non-null parameter values.
@@ -374,7 +401,8 @@ abstract class _ShopifyUser implements ShopifyUser {
       final String? lastName,
       final String? phone,
       final List<String>? tags,
-      final Address? defaultAddress}) = _$ShopifyUserImpl;
+      final Address? defaultAddress,
+      final List<Metafield>? metafields}) = _$ShopifyUserImpl;
 
   factory _ShopifyUser.fromJson(Map<String, dynamic> json) =
       _$ShopifyUserImpl.fromJson;
@@ -399,6 +427,8 @@ abstract class _ShopifyUser implements ShopifyUser {
   List<String>? get tags;
   @override
   Address? get defaultAddress;
+  @override
+  List<Metafield>? get metafields;
 
   /// Create a copy of ShopifyUser
   /// with the given fields replaced by the non-null parameter values.
