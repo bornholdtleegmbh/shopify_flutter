@@ -11,6 +11,9 @@ import 'package:shopify_flutter/models/models.dart';
 import '../../graphql_operations/storefront/mutations/customer_metafields_set.dart';
 import '../../shopify_config.dart';
 
+
+const String _CUSTOMER_METAFIELD_PLACEHOLDER = '###_METAFIELDS_###';
+
 /// ShopifyCustomer class provides various methods for working with a user/customer.
 class ShopifyCustomer with ShopifyError {
   ShopifyCustomer._();
@@ -199,10 +202,19 @@ class ShopifyCustomer with ShopifyError {
   }
 
   /// Get all the metafields of the customer.
-  Future<List<Metafield>> getCustomerMetafield(String customerAccessToken) async {
+  Future<List<Metafield>> getCustomerMetafield({
+    required String customerAccessToken,
+    Map<String, String> metafieldKeys = const {},
+    }) async {
     try {
+      String customerQuery =  getCustomerQuery;
+      String metafieldStr =
+      metafieldKeys.entries.map((entry) =>
+      '{namespace: "${entry.value}", key: "${entry.key}"}').join(',\n');
+      customerQuery = customerQuery
+          .replaceAll(_CUSTOMER_METAFIELD_PLACEHOLDER, metafieldStr);
       final QueryOptions _options = QueryOptions(
-        document: gql(getCustomerQuery),
+        document: gql(customerQuery),
         variables: {
           'customerAccessToken': customerAccessToken,
         },
