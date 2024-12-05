@@ -13,11 +13,3 @@ _$CartLineInputImpl _$$CartLineInputImplFromJson(Map<String, dynamic> json) =>
       quantity: (json['quantity'] as num).toInt(),
       sellingPlanId: json['sellingPlanId'] as String?,
     );
-
-Map<String, dynamic> _$$CartLineInputImplToJson(_$CartLineInputImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'merchandiseId': instance.merchandiseId,
-      'quantity': instance.quantity,
-      'sellingPlanId': instance.sellingPlanId,
-    };

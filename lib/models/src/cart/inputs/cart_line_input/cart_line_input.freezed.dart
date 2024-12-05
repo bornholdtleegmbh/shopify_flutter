@@ -25,9 +25,6 @@ mixin _$CartLineInput {
   int get quantity => throw _privateConstructorUsedError;
   String? get sellingPlanId => throw _privateConstructorUsedError;
 
-  /// Serializes this CartLineInput to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
   /// Create a copy of CartLineInput
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -138,7 +135,7 @@ class __$$CartLineInputImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class _$CartLineInputImpl extends _CartLineInput {
   _$CartLineInputImpl(
       {this.id,
@@ -190,13 +187,6 @@ class _$CartLineInputImpl extends _CartLineInput {
   @pragma('vm:prefer-inline')
   _$$CartLineInputImplCopyWith<_$CartLineInputImpl> get copyWith =>
       __$$CartLineInputImplCopyWithImpl<_$CartLineInputImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$CartLineInputImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _CartLineInput extends CartLineInput {
