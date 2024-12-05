@@ -20,4 +20,15 @@ class CartLineInput with _$CartLineInput {
   /// The cart line input from json factory
   factory CartLineInput.fromJson(Map<String, dynamic> json) =>
       _$CartLineInputFromJson(json);
+
+  /// The cart line input to json
+  Map<String, dynamic> cartLineInputToJson(CartLineInput instance) =>
+      <String, dynamic>{
+         if (instance.id != null) 'id': instance.id,
+        'merchandiseId': instance.merchandiseId,
+        'quantity': instance.quantity,
+        if (instance.sellingPlanId != null) 'sellingPlanId': instance.sellingPlanId,
+      };
+
+
 }
