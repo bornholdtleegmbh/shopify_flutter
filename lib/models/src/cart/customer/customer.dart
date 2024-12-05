@@ -4,7 +4,7 @@ import 'package:shopify_flutter/models/src/checkout/mailing_address/mailing_addr
 part 'customer.freezed.dart';
 part 'customer.g.dart';
 
-@freezed
+@Freezed(fromJson: false)
 
 /// The cart customer
 class Customer with _$Customer {
@@ -25,5 +25,17 @@ class Customer with _$Customer {
 
   /// The cart customer from json
   factory Customer.fromJson(Map<String, dynamic> json) =>
-      _$CustomerFromJson(json);
+      Customer(     id: json['id'] as String?,
+        email: json['email'] as String,
+        phone: json['phone'] == null ? "" : json['phone'] as String,
+        firstName: json['firstName'] as String,
+        lastName: json['lastName'] as String,
+        displayName: json['displayName'] as String,
+        defaultAddress: json['defaultAddress'] == null
+            ? null
+            : MailingAddress.fromJson(
+            json['defaultAddress'] as Map<String, dynamic>),
+        numberOfOrders: int.tryParse(json['numberOfOrders'] as String? ?? ''),
+        acceptsMarketing: json['acceptsMarketing'] as bool?,
+      );
 }
