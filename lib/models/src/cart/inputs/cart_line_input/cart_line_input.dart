@@ -3,8 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'cart_line_input.freezed.dart';
 part 'cart_line_input.g.dart';
 
-@freezed
 
+@Freezed(toJson: false)
 /// The cart line input
 class CartLineInput with _$CartLineInput {
   const CartLineInput._();
