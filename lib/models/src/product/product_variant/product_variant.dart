@@ -77,6 +77,45 @@ class ProductVariant with _$ProductVariant {
     );
   }
 
+  /// the product variant from line json
+  factory ProductVariant.fromLineJson(Map<String, dynamic> json) {
+
+
+    return ProductVariant(
+      price: json.containsKey('priceV2')
+          ? PriceV2.fromJson(json['priceV2'])
+          : PriceV2.fromJson(json['price']),
+      title: json['title'],
+      image: json['image'] != null
+          ? ShopifyImage.fromJson(json['image'])
+          : null,
+      compareAtPrice: json['compareAtPrice'] != null ||
+          json['compareAtPriceV2'] != null
+          ? json.containsKey('compareAtPrice')
+          ? PriceV2.fromJson(json['compareAtPrice'])
+          : PriceV2.fromJson(json['compareAtPriceV2'])
+          : null,
+      weight: double.tryParse(json['weight'].toString()) ?? 0.0,
+      weightUnit: json['weightUnit'],
+      availableForSale: json['availableForSale'],
+      requiresShipping: json['requiresShipping'],
+      id: json['id'],
+      quantityAvailable: json['quantityAvailable'],
+      metafields: _getMetafieldList(json),
+      sku: json['sku'],
+      unitPrice: json['unitPrice'] != null
+          ? PriceV2.fromJson(json['unitPrice'])
+          : null,
+      unitPriceMeasurement: json['unitPriceMeasurement'] != null
+          ? UnitPriceMeasurement.fromJson(json['unitPriceMeasurement'])
+          : null,
+      selectedOptions: _getOptionList((json)),
+      product: json['product'] != null
+          ? Product.fromJson(json['product'])
+          : null,
+    );
+  }
+
   /// the product variant from json
   factory ProductVariant.fromJson(Map<String, dynamic> json) =>
       _$ProductVariantFromJson(json);

@@ -33,10 +33,10 @@ class Line with _$Line {
           ? CartLineCost.fromJson(nodeJson['cost'])
           : null,
       merchandise: nodeJson['merchandise'] != null
-          ? ProductVariant.fromGraphJson(nodeJson['merchandise'])
+          ? ProductVariant.fromLineJson(nodeJson['merchandise'])
           : null,
       variantId: nodeJson['merchandise'] != null
-          ? ProductVariant.fromGraphJson(nodeJson['merchandise']).id
+          ? ProductVariant.fromLineJson(nodeJson['merchandise']).id
           : null,
       discountAllocations: (nodeJson['discountAllocations'] != null &&
               nodeJson['discountAllocations'] is List)
@@ -46,6 +46,9 @@ class Line with _$Line {
           : null,
     );
   }
+
+
+
 
   /// The cart line from json
   factory Line.fromJson(Map<String, dynamic> json) => _$LineFromJson(json);
