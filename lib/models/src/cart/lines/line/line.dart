@@ -33,10 +33,10 @@ class Line with _$Line {
           ? CartLineCost.fromJson(nodeJson['cost'])
           : null,
       merchandise: nodeJson['merchandise'] != null
-          ? ProductVariant.fromJson(nodeJson['merchandise'])
+          ? ProductVariant.fromGraphJson(nodeJson['merchandise'])
           : null,
       variantId: nodeJson['merchandise'] != null
-          ? ProductVariant.fromJson(nodeJson['merchandise']).id
+          ? ProductVariant.fromGraphJson(nodeJson['merchandise']).id
           : null,
       discountAllocations: (nodeJson['discountAllocations'] != null &&
               nodeJson['discountAllocations'] is List)
