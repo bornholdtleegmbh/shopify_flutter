@@ -14,10 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-Customer _$CustomerFromJson(Map<String, dynamic> json) {
-  return _Customer.fromJson(json);
-}
-
 /// @nodoc
 mixin _$Customer {
   String? get id => throw _privateConstructorUsedError;
@@ -227,7 +223,7 @@ class __$$CustomerImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createFactory: false)
 class _$CustomerImpl extends _Customer {
   _$CustomerImpl(
       {required this.id,
@@ -240,9 +236,6 @@ class _$CustomerImpl extends _Customer {
       required this.numberOfOrders,
       required this.acceptsMarketing})
       : super._();
-
-  factory _$CustomerImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CustomerImplFromJson(json);
 
   @override
   final String? id;
@@ -323,9 +316,6 @@ abstract class _Customer extends Customer {
       required final int? numberOfOrders,
       required final bool? acceptsMarketing}) = _$CustomerImpl;
   _Customer._() : super._();
-
-  factory _Customer.fromJson(Map<String, dynamic> json) =
-      _$CustomerImpl.fromJson;
 
   @override
   String? get id;

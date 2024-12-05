@@ -14,10 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-MailingAddress _$MailingAddressFromJson(Map<String, dynamic> json) {
-  return _MailingAddress.fromJson(json);
-}
-
 /// @nodoc
 mixin _$MailingAddress {
   String get id => throw _privateConstructorUsedError;
@@ -313,7 +309,7 @@ class __$$MailingAddressImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createFactory: false)
 class _$MailingAddressImpl implements _MailingAddress {
   _$MailingAddressImpl(
       {required this.id,
@@ -333,9 +329,6 @@ class _$MailingAddressImpl implements _MailingAddress {
       this.phone,
       this.province,
       this.provinceCode});
-
-  factory _$MailingAddressImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MailingAddressImplFromJson(json);
 
   @override
   final String id;
@@ -469,9 +462,6 @@ abstract class _MailingAddress implements MailingAddress {
       final String? phone,
       final String? province,
       final String? provinceCode}) = _$MailingAddressImpl;
-
-  factory _MailingAddress.fromJson(Map<String, dynamic> json) =
-      _$MailingAddressImpl.fromJson;
 
   @override
   String get id;
