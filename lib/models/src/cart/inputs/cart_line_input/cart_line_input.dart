@@ -22,12 +22,13 @@ class CartLineInput with _$CartLineInput {
       _$CartLineInputFromJson(json);
 
   /// The cart line input to json
-  Map<String, dynamic> cartLineInputToJson(CartLineInput instance) =>
+  @override
+  Map<String, dynamic> toJson() =>
       <String, dynamic>{
-         if (instance.id != null) 'id': instance.id,
-        'merchandiseId': instance.merchandiseId,
-        'quantity': instance.quantity,
-        if (instance.sellingPlanId != null) 'sellingPlanId': instance.sellingPlanId,
+         if (id != null) 'id': id,
+        'merchandiseId': merchandiseId,
+        'quantity': quantity,
+        if (sellingPlanId != null) 'sellingPlanId': sellingPlanId,
       };
 
 
