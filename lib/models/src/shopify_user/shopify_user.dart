@@ -25,7 +25,8 @@ class ShopifyUser with _$ShopifyUser {
   }) = _ShopifyUser;
 
   /// The shopify user from json factory
-  factory ShopifyUser.fromGraphJson(Map<String, dynamic> json) => ShopifyUser(
+  factory ShopifyUser.fromGraphJson(Map<String, dynamic> json) =>
+      ShopifyUser(
         address: Addresses.fromGraphJson(json['addresses'] ?? const {}),
         defaultAddress: json['defaultAddress'] == null
             ? null
@@ -50,12 +51,14 @@ class ShopifyUser with _$ShopifyUser {
     json['tags']?.forEach((tag) => tagsList.add(tag));
     return tagsList;
   }
-  
-  static _getMetafields(Map<String, dynamic> json) 
-  {
+
+  static _getMetafields(Map<String, dynamic> json) {
     List<Metafield> metafieldsList = [];
-    if (json['metafields'] == null) return metafieldsList;
-    json['metafields'].forEach((metafield) => metafieldsList.add(Metafield.fromJson(metafield)));
+    final metafields = json['metafields'];
+    metafields.removeWhere((element) => element == null);
+    if (metafields == null || metafields == []) return metafieldsList;
+    metafields.forEach((metafield) =>
+        metafieldsList.add(Metafield.fromJson(metafield)));
     return metafieldsList;
   }
 }
