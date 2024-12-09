@@ -54,7 +54,8 @@ class ShopifyUser with _$ShopifyUser {
   static _getMetafields(Map<String, dynamic> json) 
   {
     List<Metafield> metafieldsList = [];
-    json['metafields']?.forEach((metafield) => metafieldsList.add(Metafield.fromJson(metafield)));
+    if (json['metafields'] == null) return metafieldsList;
+    json['metafields'].forEach((metafield) => metafieldsList.add(Metafield.fromJson(metafield)));
     return metafieldsList;
   }
 }
