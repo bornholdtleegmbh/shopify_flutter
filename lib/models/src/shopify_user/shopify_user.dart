@@ -55,8 +55,9 @@ class ShopifyUser with _$ShopifyUser {
   static _getMetafields(Map<String, dynamic> json) {
     List<Metafield> metafieldsList = [];
     final metafields = json['metafields'];
-    metafields.removeWhere((element) => element == null);
     if (metafields == null || metafields == []) return metafieldsList;
+    metafields.removeWhere((element) => element == null);
+    if (metafields == []) return metafieldsList;
     metafields.forEach((metafield) =>
         metafieldsList.add(Metafield.fromJson(metafield)));
     return metafieldsList;
