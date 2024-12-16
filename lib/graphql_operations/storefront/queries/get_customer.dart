@@ -52,7 +52,7 @@ query($customerAccessToken : String!){
     lastName
     phone
     metafields(identifiers: [
-          {namespace: "app", key: "app_data"},
+          ###_METAFIELDS_###,
         ]) {
           id
           namespace
