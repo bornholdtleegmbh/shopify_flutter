@@ -23,7 +23,9 @@ mixin _$CartInput {
   List<String?> get discountCodes => throw _privateConstructorUsedError;
   List<CartLineInput?> get lines => throw _privateConstructorUsedError;
   String get note => throw _privateConstructorUsedError;
-  Map<String, dynamic> get attributes => throw _privateConstructorUsedError;
+  Map<String, dynamic> get attribute => throw _privateConstructorUsedError;
+  List<Map<String, dynamic>> get attributes =>
+      throw _privateConstructorUsedError;
   CartBuyerIdentityInput? get buyerIdentity =>
       throw _privateConstructorUsedError;
 
@@ -46,7 +48,8 @@ abstract class $CartInputCopyWith<$Res> {
       {List<String?> discountCodes,
       List<CartLineInput?> lines,
       String note,
-      Map<String, dynamic> attributes,
+      Map<String, dynamic> attribute,
+      List<Map<String, dynamic>> attributes,
       CartBuyerIdentityInput? buyerIdentity});
 
   $CartBuyerIdentityInputCopyWith<$Res>? get buyerIdentity;
@@ -70,6 +73,7 @@ class _$CartInputCopyWithImpl<$Res, $Val extends CartInput>
     Object? discountCodes = null,
     Object? lines = null,
     Object? note = null,
+    Object? attribute = null,
     Object? attributes = null,
     Object? buyerIdentity = freezed,
   }) {
@@ -86,10 +90,14 @@ class _$CartInputCopyWithImpl<$Res, $Val extends CartInput>
           ? _value.note
           : note // ignore: cast_nullable_to_non_nullable
               as String,
+      attribute: null == attribute
+          ? _value.attribute
+          : attribute // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
       attributes: null == attributes
           ? _value.attributes
           : attributes // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+              as List<Map<String, dynamic>>,
       buyerIdentity: freezed == buyerIdentity
           ? _value.buyerIdentity
           : buyerIdentity // ignore: cast_nullable_to_non_nullable
@@ -125,7 +133,8 @@ abstract class _$$CartInputImplCopyWith<$Res>
       {List<String?> discountCodes,
       List<CartLineInput?> lines,
       String note,
-      Map<String, dynamic> attributes,
+      Map<String, dynamic> attribute,
+      List<Map<String, dynamic>> attributes,
       CartBuyerIdentityInput? buyerIdentity});
 
   @override
@@ -148,6 +157,7 @@ class __$$CartInputImplCopyWithImpl<$Res>
     Object? discountCodes = null,
     Object? lines = null,
     Object? note = null,
+    Object? attribute = null,
     Object? attributes = null,
     Object? buyerIdentity = freezed,
   }) {
@@ -164,10 +174,14 @@ class __$$CartInputImplCopyWithImpl<$Res>
           ? _value.note
           : note // ignore: cast_nullable_to_non_nullable
               as String,
+      attribute: null == attribute
+          ? _value._attribute
+          : attribute // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
       attributes: null == attributes
           ? _value._attributes
           : attributes // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+              as List<Map<String, dynamic>>,
       buyerIdentity: freezed == buyerIdentity
           ? _value.buyerIdentity
           : buyerIdentity // ignore: cast_nullable_to_non_nullable
@@ -183,10 +197,12 @@ class _$CartInputImpl extends _CartInput {
       {final List<String?> discountCodes = const [],
       final List<CartLineInput?> lines = const [],
       this.note = '',
-      final Map<String, dynamic> attributes = const {},
+      final Map<String, dynamic> attribute = const {},
+      final List<Map<String, dynamic>> attributes = const [],
       this.buyerIdentity})
       : _discountCodes = discountCodes,
         _lines = lines,
+        _attribute = attribute,
         _attributes = attributes,
         super._();
 
@@ -214,13 +230,22 @@ class _$CartInputImpl extends _CartInput {
   @override
   @JsonKey()
   final String note;
-  final Map<String, dynamic> _attributes;
+  final Map<String, dynamic> _attribute;
   @override
   @JsonKey()
-  Map<String, dynamic> get attributes {
-    if (_attributes is EqualUnmodifiableMapView) return _attributes;
+  Map<String, dynamic> get attribute {
+    if (_attribute is EqualUnmodifiableMapView) return _attribute;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_attributes);
+    return EqualUnmodifiableMapView(_attribute);
+  }
+
+  final List<Map<String, dynamic>> _attributes;
+  @override
+  @JsonKey()
+  List<Map<String, dynamic>> get attributes {
+    if (_attributes is EqualUnmodifiableListView) return _attributes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_attributes);
   }
 
   @override
@@ -228,7 +253,7 @@ class _$CartInputImpl extends _CartInput {
 
   @override
   String toString() {
-    return 'CartInput(discountCodes: $discountCodes, lines: $lines, note: $note, attributes: $attributes, buyerIdentity: $buyerIdentity)';
+    return 'CartInput(discountCodes: $discountCodes, lines: $lines, note: $note, attribute: $attribute, attributes: $attributes, buyerIdentity: $buyerIdentity)';
   }
 
   @override
@@ -240,6 +265,8 @@ class _$CartInputImpl extends _CartInput {
                 .equals(other._discountCodes, _discountCodes) &&
             const DeepCollectionEquality().equals(other._lines, _lines) &&
             (identical(other.note, note) || other.note == note) &&
+            const DeepCollectionEquality()
+                .equals(other._attribute, _attribute) &&
             const DeepCollectionEquality()
                 .equals(other._attributes, _attributes) &&
             (identical(other.buyerIdentity, buyerIdentity) ||
@@ -253,6 +280,7 @@ class _$CartInputImpl extends _CartInput {
       const DeepCollectionEquality().hash(_discountCodes),
       const DeepCollectionEquality().hash(_lines),
       note,
+      const DeepCollectionEquality().hash(_attribute),
       const DeepCollectionEquality().hash(_attributes),
       buyerIdentity);
 
@@ -277,7 +305,8 @@ abstract class _CartInput extends CartInput {
       {final List<String?> discountCodes,
       final List<CartLineInput?> lines,
       final String note,
-      final Map<String, dynamic> attributes,
+      final Map<String, dynamic> attribute,
+      final List<Map<String, dynamic>> attributes,
       final CartBuyerIdentityInput? buyerIdentity}) = _$CartInputImpl;
   _CartInput._() : super._();
 
@@ -291,7 +320,9 @@ abstract class _CartInput extends CartInput {
   @override
   String get note;
   @override
-  Map<String, dynamic> get attributes;
+  Map<String, dynamic> get attribute;
+  @override
+  List<Map<String, dynamic>> get attributes;
   @override
   CartBuyerIdentityInput? get buyerIdentity;
 

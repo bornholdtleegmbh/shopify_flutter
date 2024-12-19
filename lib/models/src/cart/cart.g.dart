@@ -30,7 +30,10 @@ _$CartImpl _$$CartImplFromJson(Map<String, dynamic> json) => _$CartImpl(
               json['buyerIdentity'] as Map<String, dynamic>),
       note: json['note'] as String?,
       updatedAt: json['updatedAt'] as String?,
-      attributes: json['attributes'] as Map<String, dynamic>?,
+      attribute: json['attribute'] as Map<String, dynamic>?,
+      attributes: (json['attributes'] as List<dynamic>?)
+          ?.map((e) => e as Map<String, dynamic>)
+          .toList(),
       lines: JsonHelper.lines(json['lines']),
     );
 
@@ -46,6 +49,7 @@ Map<String, dynamic> _$$CartImplToJson(_$CartImpl instance) =>
       'buyerIdentity': instance.buyerIdentity,
       'note': instance.note,
       'updatedAt': instance.updatedAt,
+      'attribute': instance.attribute,
       'attributes': instance.attributes,
       'lines': instance.lines,
     };
