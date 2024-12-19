@@ -12,8 +12,6 @@ mutation cartCreate($country: CountryCode, $input: CartInput!) @inContext(countr
       checkoutUrl
       createdAt
       totalQuantity
-      attribute
-      attributes
       cost {
         checkoutChargeAmount {
           amount

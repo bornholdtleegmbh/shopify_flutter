@@ -24,8 +24,6 @@ mixin _$CartInput {
   List<CartLineInput?> get lines => throw _privateConstructorUsedError;
   String get note => throw _privateConstructorUsedError;
   Map<String, dynamic> get attribute => throw _privateConstructorUsedError;
-  List<Map<String, dynamic>> get attributes =>
-      throw _privateConstructorUsedError;
   CartBuyerIdentityInput? get buyerIdentity =>
       throw _privateConstructorUsedError;
 
@@ -49,7 +47,6 @@ abstract class $CartInputCopyWith<$Res> {
       List<CartLineInput?> lines,
       String note,
       Map<String, dynamic> attribute,
-      List<Map<String, dynamic>> attributes,
       CartBuyerIdentityInput? buyerIdentity});
 
   $CartBuyerIdentityInputCopyWith<$Res>? get buyerIdentity;
@@ -74,7 +71,6 @@ class _$CartInputCopyWithImpl<$Res, $Val extends CartInput>
     Object? lines = null,
     Object? note = null,
     Object? attribute = null,
-    Object? attributes = null,
     Object? buyerIdentity = freezed,
   }) {
     return _then(_value.copyWith(
@@ -94,10 +90,6 @@ class _$CartInputCopyWithImpl<$Res, $Val extends CartInput>
           ? _value.attribute
           : attribute // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
-      attributes: null == attributes
-          ? _value.attributes
-          : attributes // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, dynamic>>,
       buyerIdentity: freezed == buyerIdentity
           ? _value.buyerIdentity
           : buyerIdentity // ignore: cast_nullable_to_non_nullable
@@ -134,7 +126,6 @@ abstract class _$$CartInputImplCopyWith<$Res>
       List<CartLineInput?> lines,
       String note,
       Map<String, dynamic> attribute,
-      List<Map<String, dynamic>> attributes,
       CartBuyerIdentityInput? buyerIdentity});
 
   @override
@@ -158,7 +149,6 @@ class __$$CartInputImplCopyWithImpl<$Res>
     Object? lines = null,
     Object? note = null,
     Object? attribute = null,
-    Object? attributes = null,
     Object? buyerIdentity = freezed,
   }) {
     return _then(_$CartInputImpl(
@@ -178,10 +168,6 @@ class __$$CartInputImplCopyWithImpl<$Res>
           ? _value._attribute
           : attribute // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
-      attributes: null == attributes
-          ? _value._attributes
-          : attributes // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, dynamic>>,
       buyerIdentity: freezed == buyerIdentity
           ? _value.buyerIdentity
           : buyerIdentity // ignore: cast_nullable_to_non_nullable
@@ -198,12 +184,10 @@ class _$CartInputImpl extends _CartInput {
       final List<CartLineInput?> lines = const [],
       this.note = '',
       final Map<String, dynamic> attribute = const {},
-      final List<Map<String, dynamic>> attributes = const [],
       this.buyerIdentity})
       : _discountCodes = discountCodes,
         _lines = lines,
         _attribute = attribute,
-        _attributes = attributes,
         super._();
 
   factory _$CartInputImpl.fromJson(Map<String, dynamic> json) =>
@@ -239,21 +223,12 @@ class _$CartInputImpl extends _CartInput {
     return EqualUnmodifiableMapView(_attribute);
   }
 
-  final List<Map<String, dynamic>> _attributes;
-  @override
-  @JsonKey()
-  List<Map<String, dynamic>> get attributes {
-    if (_attributes is EqualUnmodifiableListView) return _attributes;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_attributes);
-  }
-
   @override
   final CartBuyerIdentityInput? buyerIdentity;
 
   @override
   String toString() {
-    return 'CartInput(discountCodes: $discountCodes, lines: $lines, note: $note, attribute: $attribute, attributes: $attributes, buyerIdentity: $buyerIdentity)';
+    return 'CartInput(discountCodes: $discountCodes, lines: $lines, note: $note, attribute: $attribute, buyerIdentity: $buyerIdentity)';
   }
 
   @override
@@ -267,8 +242,6 @@ class _$CartInputImpl extends _CartInput {
             (identical(other.note, note) || other.note == note) &&
             const DeepCollectionEquality()
                 .equals(other._attribute, _attribute) &&
-            const DeepCollectionEquality()
-                .equals(other._attributes, _attributes) &&
             (identical(other.buyerIdentity, buyerIdentity) ||
                 other.buyerIdentity == buyerIdentity));
   }
@@ -281,7 +254,6 @@ class _$CartInputImpl extends _CartInput {
       const DeepCollectionEquality().hash(_lines),
       note,
       const DeepCollectionEquality().hash(_attribute),
-      const DeepCollectionEquality().hash(_attributes),
       buyerIdentity);
 
   /// Create a copy of CartInput
@@ -306,7 +278,6 @@ abstract class _CartInput extends CartInput {
       final List<CartLineInput?> lines,
       final String note,
       final Map<String, dynamic> attribute,
-      final List<Map<String, dynamic>> attributes,
       final CartBuyerIdentityInput? buyerIdentity}) = _$CartInputImpl;
   _CartInput._() : super._();
 
@@ -321,8 +292,6 @@ abstract class _CartInput extends CartInput {
   String get note;
   @override
   Map<String, dynamic> get attribute;
-  @override
-  List<Map<String, dynamic>> get attributes;
   @override
   CartBuyerIdentityInput? get buyerIdentity;
 

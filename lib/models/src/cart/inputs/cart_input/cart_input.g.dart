@@ -20,10 +20,6 @@ _$CartInputImpl _$$CartInputImplFromJson(Map<String, dynamic> json) =>
           const [],
       note: json['note'] as String? ?? '',
       attribute: json['attribute'] as Map<String, dynamic>? ?? const {},
-      attributes: (json['attributes'] as List<dynamic>?)
-              ?.map((e) => e as Map<String, dynamic>)
-              .toList() ??
-          const [],
       buyerIdentity: json['buyerIdentity'] == null
           ? null
           : CartBuyerIdentityInput.fromJson(
@@ -36,6 +32,5 @@ Map<String, dynamic> _$$CartInputImplToJson(_$CartInputImpl instance) =>
       'lines': instance.lines,
       'note': instance.note,
       'attribute': instance.attribute,
-      'attributes': instance.attributes,
       'buyerIdentity': instance.buyerIdentity,
     };

@@ -29,8 +29,6 @@ class Cart with _$Cart {
     CartBuyerIdentity? buyerIdentity,
     String? note,
     String? updatedAt,
-    Map<String, dynamic>? attribute,
-    List<Map<String, dynamic>>? attributes,
     @JsonKey(fromJson: JsonHelper.lines) required List<Line> lines,
   }) = _Cart;
 

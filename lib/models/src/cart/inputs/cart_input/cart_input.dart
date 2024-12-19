@@ -18,7 +18,6 @@ class CartInput with _$CartInput {
     @Default([]) List<CartLineInput?> lines,
     @Default('') String note,
     @Default({}) Map<String, dynamic> attribute,
-    @Default([]) List<Map<String, dynamic>> attributes,
     CartBuyerIdentityInput? buyerIdentity,
   }) = _CartInput;
 
