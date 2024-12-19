@@ -47,6 +47,7 @@ class ShopifyCart with ShopifyError {
       'lines': cartInput.lines.map((e) => e?.toJson()).toList(),
       'note': cartInput.note,
       'buyerIdentity': cartInput.buyerIdentity?.toJson(),
+      'attributes': cartInput.attributes,
     };
     final MutationOptions createCart = MutationOptions(
       document: gql(cartCreateMutation),
