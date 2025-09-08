@@ -18,11 +18,3 @@ _$CartLineInputImpl _$$CartLineInputImplFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const [],
     );
-
-Map<String, dynamic> _$$CartLineInputImplToJson(_$CartLineInputImpl instance) =>
-    <String, dynamic>{
-      'merchandiseId': instance.merchandiseId,
-      'quantity': instance.quantity,
-      'sellingPlanId': instance.sellingPlanId,
-      'attributes': instance.attributes.map((e) => e?.toJson()).toList(),
-    };

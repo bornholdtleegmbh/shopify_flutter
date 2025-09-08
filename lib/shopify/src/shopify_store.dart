@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:developer';
 
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:shopify_flutter/enums/enums.dart';
 import 'package:shopify_flutter/graphql_operations/storefront/queries/get_all_collections_optimized.dart';
 import 'package:shopify_flutter/graphql_operations/storefront/queries/get_all_products_from_collection_by_id.dart';
@@ -12,21 +14,26 @@ import 'package:shopify_flutter/graphql_operations/storefront/queries/get_shop.d
 import 'package:shopify_flutter/graphql_operations/storefront/queries/get_x_collections_and_n_products_sorted.dart';
 import 'package:shopify_flutter/graphql_operations/storefront/queries/get_x_products_after_cursor.dart';
 import 'package:shopify_flutter/graphql_operations/storefront/queries/get_x_products_after_cursor_within_collection.dart';
-import 'package:shopify_flutter/graphql_operations/storefront/queries/search_product.dart';
 import 'package:shopify_flutter/graphql_operations/storefront/queries/get_x_products_on_query_after_cursor.dart';
+import 'package:shopify_flutter/graphql_operations/storefront/queries/search_product.dart';
 import 'package:shopify_flutter/mixins/src/shopify_error.dart';
 import 'package:shopify_flutter/models/src/collection/collections/collections.dart';
 import 'package:shopify_flutter/models/src/product/metafield_identifier/metafield_identifier.dart';
 import 'package:shopify_flutter/models/src/product/product.dart';
 import 'package:shopify_flutter/models/src/product/products/products.dart';
 import 'package:shopify_flutter/models/src/shop/shop.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:shopify_flutter/shopify/src/shopify_localization.dart';
 import '../../graphql_operations/storefront/queries/get_featured_collections.dart';
 import '../../graphql_operations/storefront/queries/get_n_products.dart';
+import '../../graphql_operations/storefront/queries/get_nutrients.dart';
 import '../../graphql_operations/storefront/queries/get_products.dart';
 import '../../models/src/collection/collection.dart';
+import '../../models/src/metaobject/nutrient.dart';
+import '../../models/src/metaobject/nutrients/nutrients.dart';
 import '../../shopify_config.dart';
+
+const String _PRODUCT_METAFIELD_PLACEHOLDER = "###_METAFIELDS_###";
+const String _PRODUCT_VARIANTS_METAFIELD_PLACEHOLDER = "###_VAR_METAFIELDS_###";
 
 /// ShopifyStore provides various methods related to the shopify store.
 class ShopifyStore with ShopifyError {
@@ -43,6 +50,7 @@ class ShopifyStore with ShopifyError {
   Future<List<Product>> getAllProducts({
     bool reverse = false,
     List<MetafieldIdentifier>? metafields,
+    List<MetafieldIdentifier>? varMetafields,
   }) async {
     List<Product> productList = [];
     Products tempProduct;
@@ -58,13 +66,15 @@ class ShopifyStore with ShopifyError {
           'metafields': metafields != null
               ? metafields.map((e) => e.toJson()).toList()
               : [],
+          'varMetafields': varMetafields != null
+              ? varMetafields.map((e) => e.toJson()).toList()
+              : [],
         },
         fetchPolicy: ShopifyConfig.fetchPolicy,
       );
       final QueryResult result = await _graphQLClient!.query(_options);
       checkForError(result);
-      tempProduct =
-          (Products.fromGraphJson((result.data ?? const {})["products"] ?? {}));
+      tempProduct = (Products.fromGraphJson((result.data ?? const {})["products"] ?? {}));
 
       productList += tempProduct.productList;
       cursor = productList.isNotEmpty ? productList.last.cursor : '';
@@ -102,8 +112,7 @@ class ShopifyStore with ShopifyError {
     );
     final QueryResult result = await _graphQLClient!.query(_options);
     checkForError(result);
-    tempProduct =
-        (Products.fromGraphJson((result.data ?? const {})["products"] ?? {}));
+    tempProduct = (Products.fromGraphJson((result.data ?? const {})["products"] ?? {}));
     productList += tempProduct.productList;
     return productList;
   }
@@ -206,9 +215,7 @@ class ShopifyStore with ShopifyError {
     );
     final QueryResult result = await _graphQLClient!.query(_options);
     checkForError(result);
-    productList =
-        (Products.fromGraphJson((result.data ?? const {})["products"] ?? {}))
-            .productList;
+    productList = (Products.fromGraphJson((result.data ?? const {})["products"] ?? {})).productList;
     return productList;
   }
 
@@ -231,12 +238,8 @@ class ShopifyStore with ShopifyError {
       );
       final QueryResult result = await _graphQLClient!.query(_options);
       checkForError(result);
-      var newResponse = List.generate(
-          result.data!['productRecommendations']?.length ?? 0,
-          (index) => {
-                "node":
-                    (result.data!['productRecommendations'] ?? const {})[index]
-              });
+      var newResponse = List.generate(result.data!['productRecommendations']?.length ?? 0,
+          (index) => {"node": (result.data!['productRecommendations'] ?? const {})[index]});
       var tempProducts = {"edges": newResponse};
       return Products.fromGraphJson(tempProducts).productList;
     } catch (e) {
@@ -263,8 +266,8 @@ class ShopifyStore with ShopifyError {
       );
       final QueryResult result = await _graphQLClient!.query(_options);
       checkForError(result);
-      var newResponse = List.generate(result.data!['nodes']?.length ?? 0,
-          (index) => {"node": (result.data!['nodes'] ?? const {})[index]});
+      var newResponse = List.generate(
+          result.data!['nodes']?.length ?? 0, (index) => {"node": (result.data!['nodes'] ?? const {})[index]});
       var tempCollection = {"edges": newResponse};
       return Collections.fromGraphJson(tempCollection).collectionList;
     } catch (e) {
@@ -304,8 +307,7 @@ class ShopifyStore with ShopifyError {
       );
       final QueryResult result = await _graphQLClient!.query(_options);
       checkForError(result);
-      return Collections.fromGraphJson(result.data!['collections'])
-          .collectionList[0];
+      return Collections.fromGraphJson(result.data!['collections']).collectionList[0];
     } catch (e) {
       log(e.toString());
     }
@@ -364,8 +366,7 @@ class ShopifyStore with ShopifyError {
       );
       final QueryResult result = await _graphQLClient!.query(_options);
       checkForError(result);
-      tempCollection = (Collections.fromGraphJson(
-          (result.data ?? const {})['collections'] ?? {}));
+      tempCollection = (Collections.fromGraphJson((result.data ?? const {})['collections'] ?? {}));
       collectionList.addAll(tempCollection.collectionList);
       cursor = collectionList.isNotEmpty ? collectionList.last.cursor : '';
     } while ((tempCollection.hasNextPage == true));
@@ -378,8 +379,7 @@ class ShopifyStore with ShopifyError {
   Future<List<Collection>?> getXCollectionsAndNProductsSorted(
     int n,
     int x, {
-    SortKeyProductCollection sortKeyProductCollection =
-        SortKeyProductCollection.CREATED,
+    SortKeyProductCollection sortKeyProductCollection = SortKeyProductCollection.CREATED,
     SortKeyCollection sortKeyCollection = SortKeyCollection.UPDATED_AT,
     bool reverse = false,
     List<MetafieldIdentifier>? productMetafields,
@@ -409,9 +409,7 @@ class ShopifyStore with ShopifyError {
     );
     final QueryResult result = await _graphQLClient!.query(_options);
     checkForError(result);
-    collectionList = (Collections.fromGraphJson(
-            (result.data ?? const {})['collections'] ?? {}))
-        .collectionList;
+    collectionList = (Collections.fromGraphJson((result.data ?? const {})['collections'] ?? {})).collectionList;
     return collectionList;
   }
 
@@ -444,8 +442,7 @@ class ShopifyStore with ShopifyError {
       );
       final QueryResult result = await _graphQLClient!.query(_options);
       checkForError(result);
-      productList
-          .addAll(Collection.fromGraphJson(result.data!).products.productList);
+      productList.addAll(Collection.fromGraphJson(result.data!).products.productList);
       collection = (Collection.fromGraphJson(result.data!));
       cursor = productList.isNotEmpty ? productList.last.cursor : '';
     } while (collection.products.hasNextPage == true);
@@ -568,10 +565,8 @@ class ShopifyStore with ShopifyError {
       );
       final QueryResult result = await _graphQLClient!.query(_options);
       checkForError(result);
-      productList.addAll(
-          (Products.fromGraphJson((result.data!)['products'])).productList);
-      products =
-          (Products.fromGraphJson((result.data ?? const {})['products']));
+      productList.addAll((Products.fromGraphJson((result.data!)['products'])).productList);
+      products = (Products.fromGraphJson((result.data ?? const {})['products']));
       cursor = productList.isNotEmpty ? productList.last.cursor : '';
     } while (products.hasNextPage == true);
     return productList;
@@ -603,10 +598,43 @@ class ShopifyStore with ShopifyError {
       },
       fetchPolicy: ShopifyConfig.fetchPolicy,
     );
-    final QueryResult result =
-        await ShopifyConfig.graphQLClient!.query(_options);
+    final QueryResult result = await ShopifyConfig.graphQLClient!.query(_options);
     checkForError(result);
-    return Products.fromGraphJson((result.data ?? const {})['products'])
-        .productList;
+    return Products.fromGraphJson((result.data ?? const {})['products']).productList;
+  }
+
+  /// Returns a List of [Nutrient]
+  Future<List<Nutrient>> getAllNutrients() async {
+    List<Nutrient> nutrientList = [];
+    String? afterCursor;
+    try {
+      bool hasNextPage = true;
+
+      while (hasNextPage) {
+        WatchQueryOptions _options = WatchQueryOptions(
+          document: gql(getNutrientsQuery),
+          variables: {
+            'after': afterCursor,
+          },
+          fetchPolicy: ShopifyConfig.fetchPolicy,
+        );
+        final QueryResult result = await _graphQLClient!.query(_options);
+
+        checkForError(result);
+        if (result.data != null && result.data!['metaobjects'] != null) {
+          Nutrients tempNutrient = Nutrients.fromGraphJson(result.data!);
+          nutrientList.addAll(tempNutrient.nodes.toList());
+
+          hasNextPage = tempNutrient.hasNextPage;
+          afterCursor = tempNutrient.endCursor;
+        } else {
+          throw Exception('No data or metaobjects field in response');
+        }
+      }
+      return nutrientList;
+    } catch (e) {
+      log('Error fetching nutrients: $e');
+      return [];
+    }
   }
 }

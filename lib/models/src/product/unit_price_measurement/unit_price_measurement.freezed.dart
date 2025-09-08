@@ -20,11 +20,11 @@ UnitPriceMeasurement _$UnitPriceMeasurementFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UnitPriceMeasurement {
-  String get measuredType => throw _privateConstructorUsedError;
-  String get quantityUnit => throw _privateConstructorUsedError;
-  double get quantityValue => throw _privateConstructorUsedError;
-  String get referenceUnit => throw _privateConstructorUsedError;
-  int get referenceValue => throw _privateConstructorUsedError;
+  String? get measuredType => throw _privateConstructorUsedError;
+  String? get quantityUnit => throw _privateConstructorUsedError;
+  double? get quantityValue => throw _privateConstructorUsedError;
+  String? get referenceUnit => throw _privateConstructorUsedError;
+  int? get referenceValue => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,11 +39,11 @@ abstract class $UnitPriceMeasurementCopyWith<$Res> {
       _$UnitPriceMeasurementCopyWithImpl<$Res, UnitPriceMeasurement>;
   @useResult
   $Res call(
-      {String measuredType,
-      String quantityUnit,
-      double quantityValue,
-      String referenceUnit,
-      int referenceValue});
+      {String? measuredType,
+      String? quantityUnit,
+      double? quantityValue,
+      String? referenceUnit,
+      int? referenceValue});
 }
 
 /// @nodoc
@@ -60,33 +60,33 @@ class _$UnitPriceMeasurementCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? measuredType = null,
-    Object? quantityUnit = null,
-    Object? quantityValue = null,
-    Object? referenceUnit = null,
-    Object? referenceValue = null,
+    Object? measuredType = freezed,
+    Object? quantityUnit = freezed,
+    Object? quantityValue = freezed,
+    Object? referenceUnit = freezed,
+    Object? referenceValue = freezed,
   }) {
     return _then(_value.copyWith(
-      measuredType: null == measuredType
+      measuredType: freezed == measuredType
           ? _value.measuredType
           : measuredType // ignore: cast_nullable_to_non_nullable
-              as String,
-      quantityUnit: null == quantityUnit
+              as String?,
+      quantityUnit: freezed == quantityUnit
           ? _value.quantityUnit
           : quantityUnit // ignore: cast_nullable_to_non_nullable
-              as String,
-      quantityValue: null == quantityValue
+              as String?,
+      quantityValue: freezed == quantityValue
           ? _value.quantityValue
           : quantityValue // ignore: cast_nullable_to_non_nullable
-              as double,
-      referenceUnit: null == referenceUnit
+              as double?,
+      referenceUnit: freezed == referenceUnit
           ? _value.referenceUnit
           : referenceUnit // ignore: cast_nullable_to_non_nullable
-              as String,
-      referenceValue: null == referenceValue
+              as String?,
+      referenceValue: freezed == referenceValue
           ? _value.referenceValue
           : referenceValue // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ) as $Val);
   }
 }
@@ -100,11 +100,11 @@ abstract class _$$UnitPriceMeasurementImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String measuredType,
-      String quantityUnit,
-      double quantityValue,
-      String referenceUnit,
-      int referenceValue});
+      {String? measuredType,
+      String? quantityUnit,
+      double? quantityValue,
+      String? referenceUnit,
+      int? referenceValue});
 }
 
 /// @nodoc
@@ -118,33 +118,33 @@ class __$$UnitPriceMeasurementImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? measuredType = null,
-    Object? quantityUnit = null,
-    Object? quantityValue = null,
-    Object? referenceUnit = null,
-    Object? referenceValue = null,
+    Object? measuredType = freezed,
+    Object? quantityUnit = freezed,
+    Object? quantityValue = freezed,
+    Object? referenceUnit = freezed,
+    Object? referenceValue = freezed,
   }) {
     return _then(_$UnitPriceMeasurementImpl(
-      measuredType: null == measuredType
+      measuredType: freezed == measuredType
           ? _value.measuredType
           : measuredType // ignore: cast_nullable_to_non_nullable
-              as String,
-      quantityUnit: null == quantityUnit
+              as String?,
+      quantityUnit: freezed == quantityUnit
           ? _value.quantityUnit
           : quantityUnit // ignore: cast_nullable_to_non_nullable
-              as String,
-      quantityValue: null == quantityValue
+              as String?,
+      quantityValue: freezed == quantityValue
           ? _value.quantityValue
           : quantityValue // ignore: cast_nullable_to_non_nullable
-              as double,
-      referenceUnit: null == referenceUnit
+              as double?,
+      referenceUnit: freezed == referenceUnit
           ? _value.referenceUnit
           : referenceUnit // ignore: cast_nullable_to_non_nullable
-              as String,
-      referenceValue: null == referenceValue
+              as String?,
+      referenceValue: freezed == referenceValue
           ? _value.referenceValue
           : referenceValue // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ));
   }
 }
@@ -153,26 +153,26 @@ class __$$UnitPriceMeasurementImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UnitPriceMeasurementImpl extends _UnitPriceMeasurement {
   _$UnitPriceMeasurementImpl(
-      {required this.measuredType,
-      required this.quantityUnit,
-      required this.quantityValue,
-      required this.referenceUnit,
-      required this.referenceValue})
+      {this.measuredType,
+      this.quantityUnit,
+      this.quantityValue,
+      this.referenceUnit,
+      this.referenceValue})
       : super._();
 
   factory _$UnitPriceMeasurementImpl.fromJson(Map<String, dynamic> json) =>
       _$$UnitPriceMeasurementImplFromJson(json);
 
   @override
-  final String measuredType;
+  final String? measuredType;
   @override
-  final String quantityUnit;
+  final String? quantityUnit;
   @override
-  final double quantityValue;
+  final double? quantityValue;
   @override
-  final String referenceUnit;
+  final String? referenceUnit;
   @override
-  final int referenceValue;
+  final int? referenceValue;
 
   @override
   String toString() {
@@ -219,26 +219,26 @@ class _$UnitPriceMeasurementImpl extends _UnitPriceMeasurement {
 
 abstract class _UnitPriceMeasurement extends UnitPriceMeasurement {
   factory _UnitPriceMeasurement(
-      {required final String measuredType,
-      required final String quantityUnit,
-      required final double quantityValue,
-      required final String referenceUnit,
-      required final int referenceValue}) = _$UnitPriceMeasurementImpl;
+      {final String? measuredType,
+      final String? quantityUnit,
+      final double? quantityValue,
+      final String? referenceUnit,
+      final int? referenceValue}) = _$UnitPriceMeasurementImpl;
   _UnitPriceMeasurement._() : super._();
 
   factory _UnitPriceMeasurement.fromJson(Map<String, dynamic> json) =
       _$UnitPriceMeasurementImpl.fromJson;
 
   @override
-  String get measuredType;
+  String? get measuredType;
   @override
-  String get quantityUnit;
+  String? get quantityUnit;
   @override
-  double get quantityValue;
+  double? get quantityValue;
   @override
-  String get referenceUnit;
+  String? get referenceUnit;
   @override
-  int get referenceValue;
+  int? get referenceValue;
   @override
   @JsonKey(ignore: true)
   _$$UnitPriceMeasurementImplCopyWith<_$UnitPriceMeasurementImpl>

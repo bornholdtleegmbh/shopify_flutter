@@ -1,13 +1,18 @@
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:shopify_flutter/graphql_operations/storefront/mutations/customer_address_create.dart';
 import 'package:shopify_flutter/graphql_operations/storefront/mutations/customer_address_delete.dart';
 import 'package:shopify_flutter/graphql_operations/storefront/mutations/customer_address_update.dart';
 import 'package:shopify_flutter/graphql_operations/storefront/mutations/customer_default_address_update.dart';
 import 'package:shopify_flutter/graphql_operations/storefront/mutations/customer_update.dart';
+import 'package:shopify_flutter/graphql_operations/storefront/queries/get_customer.dart';
 import 'package:shopify_flutter/mixins/src/shopify_error.dart';
-import 'package:shopify_flutter/models/src/shopify_user/address/address.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:shopify_flutter/models/models.dart';
 
+import '../../graphql_operations/storefront/mutations/customer_metafields_set.dart';
 import '../../shopify_config.dart';
+
+
+const String _CUSTOMER_METAFIELD_PLACEHOLDER = '###_METAFIELDS_###';
 
 /// ShopifyCustomer class provides various methods for working with a user/customer.
 class ShopifyCustomer with ShopifyError {
@@ -17,6 +22,8 @@ class ShopifyCustomer with ShopifyError {
   static final ShopifyCustomer instance = ShopifyCustomer._();
 
   GraphQLClient? get _graphQLClient => ShopifyConfig.graphQLClient;
+
+  GraphQLClient? get _graphQlClientAdmin => ShopifyConfig.graphQLClientAdmin;
 
   /// Updated the Address of a Customer, please input only the fields that you wish to update.
   Future<void> customerAddressUpdate({
@@ -33,22 +40,20 @@ class ShopifyCustomer with ShopifyError {
     String? province,
     String? zip,
   }) async {
-    final MutationOptions _options = MutationOptions(
-        document: gql(customerAddressUpdateMutation),
-        variables: {
-          'address1': address1,
-          'address2': address2,
-          'company': company,
-          'city': city,
-          'country': country,
-          'firstName': firstName,
-          'lastName': lastName,
-          'phone': phone,
-          'province': province,
-          'zip': zip,
-          'customerAccessToken': customerAccessToken,
-          'id': id
-        });
+    final MutationOptions _options = MutationOptions(document: gql(customerAddressUpdateMutation), variables: {
+      'address1': address1,
+      'address2': address2,
+      'company': company,
+      'city': city,
+      'country': country,
+      'firstName': firstName,
+      'lastName': lastName,
+      'phone': phone,
+      'province': province,
+      'zip': zip,
+      'customerAccessToken': customerAccessToken,
+      'id': id
+    });
     final QueryResult result = await _graphQLClient!.mutate(_options);
     checkForError(
       result,
@@ -109,29 +114,26 @@ class ShopifyCustomer with ShopifyError {
     String? zip,
     String? customerAccessToken,
   }) async {
-    final MutationOptions _options = MutationOptions(
-        document: gql(customerAddressCreateMutation),
-        variables: {
-          'address1': address1,
-          'address2': address2,
-          'company': company,
-          'city': city,
-          'country': country,
-          'firstName': firstName,
-          'lastName': lastName,
-          'phone': phone,
-          'province': province,
-          'zip': zip,
-          'customerAccessToken': customerAccessToken,
-        });
+    final MutationOptions _options = MutationOptions(document: gql(customerAddressCreateMutation), variables: {
+      'address1': address1,
+      'address2': address2,
+      'company': company,
+      'city': city,
+      'country': country,
+      'firstName': firstName,
+      'lastName': lastName,
+      'phone': phone,
+      'province': province,
+      'zip': zip,
+      'customerAccessToken': customerAccessToken,
+    });
     final QueryResult result = await _graphQLClient!.mutate(_options);
     checkForError(
       result,
       key: 'customerAddressCreate',
       errorKey: 'customerUserErrors',
     );
-    return Address.fromJson(
-        (result.data!['customerAddressCreate']['customerAddress'] ?? {}));
+    return Address.fromJson((result.data!['customerAddressCreate']['customerAddress'] ?? {}));
   }
 
   /// Deletes the address associated with the [addressId] from the customer to which [customerAccessToken] belongs to.
@@ -143,10 +145,7 @@ class ShopifyCustomer with ShopifyError {
   }) async {
     final MutationOptions _options = MutationOptions(
         document: gql(customerAddressDeleteMutation),
-        variables: {
-          'customerAccessToken': customerAccessToken,
-          'id': addressId
-        });
+        variables: {'customerAccessToken': customerAccessToken, 'id': addressId});
     final QueryResult result = await _graphQLClient!.mutate(_options);
     checkForError(
       result,
@@ -155,22 +154,87 @@ class ShopifyCustomer with ShopifyError {
     );
   }
 
-  /// updates the default adderess to the [addressId] provided from the customer to which [customerAccessToken] belongs to.
+  /// updates the default address to the [addressId] provided from the customer to which [customerAccessToken] belongs to.
   Future<void> customerDefaultAddressUpdate({
     required String addressId,
     required String customerAccessToken,
   }) async {
     final MutationOptions _options = MutationOptions(
         document: gql(customerDefaultAddressUpdateMutation),
-        variables: {
-          'customerAccessToken': customerAccessToken,
-          'addressId': addressId
-        });
+        variables: {'customerAccessToken': customerAccessToken, 'addressId': addressId});
     final QueryResult result = await _graphQLClient!.mutate(_options);
     checkForError(
       result,
       key: 'customerDefaultAddressUpdate',
       errorKey: 'customerUserErrors',
     );
+  }
+
+  /// Updates one of the metafields of the customer.
+  Future<void> customerMetafieldSet({
+    required String key,
+    required String namespace,
+    required String id,
+    required String type,
+    required String value,
+  }) async {
+    if (_graphQlClientAdmin == null) throw 'Admin access token is not provided';
+    final MutationOptions _options = MutationOptions(
+      document: gql(customerMetafieldsSetQuery),
+      variables: {
+        "metafields": [
+          {
+            "key": key,
+            "namespace": namespace,
+            "ownerId": id,
+            "type": type,
+            "value": value,
+          }
+        ]
+      },
+    );
+    QueryResult result = await _graphQlClientAdmin!.mutate(_options);
+    checkForError(
+      result,
+      key: 'customerMetafieldsSet',
+      errorKey: 'userErrors',
+    );
+  }
+
+  /// Get all the metafields of the customer.
+  Future<List<Metafield>> getCustomerMetafield({
+    required String customerAccessToken,
+    Map<String, String> metafieldKeys = const {},
+    }) async {
+    try {
+      String customerQuery =  getCustomerQuery;
+      String metafieldStr =
+      metafieldKeys.entries.map((entry) =>
+      '{namespace: "${entry.value}", key: "${entry.key}"}').join(',\n');
+      customerQuery = customerQuery
+          .replaceAll(_CUSTOMER_METAFIELD_PLACEHOLDER, metafieldStr);
+      final QueryOptions _options = QueryOptions(
+        document: gql(customerQuery),
+        variables: {
+          'customerAccessToken': customerAccessToken,
+        },
+      );
+      final QueryResult result = await _graphQLClient!.query(_options);
+      checkForError(
+        result,
+        key: 'customer',
+        errorKey: 'customerUserErrors',
+      );
+      int length = result.data!['customer']['metafields'].length;
+      List<Metafield> metafields = [];
+      for (int i = 0; i < length; i++) {
+        metafields.add(
+            Metafield.fromGraphJson(result.data!['customer']['metafields'][i]));
+      }
+      return metafields;
+    } catch (error) {
+      return [];
+    }
+
   }
 }

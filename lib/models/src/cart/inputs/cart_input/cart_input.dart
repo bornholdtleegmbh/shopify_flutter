@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:shopify_flutter/models/src/cart/inputs/attribute_input/attribute_input.dart';
 import 'package:shopify_flutter/models/src/cart/inputs/cart_buyer_identity_input/cart_buyer_identity_input.dart';
 
 import '../cart_line_input/cart_line_input.dart';
-import '../attribute_input/attribute_input.dart';
 
 part 'cart_input.freezed.dart';
 part 'cart_input.g.dart';

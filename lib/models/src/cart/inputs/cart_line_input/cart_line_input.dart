@@ -5,8 +5,8 @@ import '../attribute_input/attribute_input.dart';
 part 'cart_line_input.freezed.dart';
 part 'cart_line_input.g.dart';
 
-@freezed
 
+@Freezed(toJson: false)
 /// The cart line input
 class CartLineInput with _$CartLineInput {
   const CartLineInput._();
@@ -22,4 +22,13 @@ class CartLineInput with _$CartLineInput {
   /// The cart line input from json factory
   factory CartLineInput.fromJson(Map<String, dynamic> json) =>
       _$CartLineInputFromJson(json);
+
+  /// The cart line input to json
+  @override
+  Map<String, dynamic> toJson() =>
+      <String, dynamic>{
+        'merchandiseId': merchandiseId,
+        'quantity': quantity,
+        if (sellingPlanId != null) 'sellingPlanId': sellingPlanId,
+      };
 }

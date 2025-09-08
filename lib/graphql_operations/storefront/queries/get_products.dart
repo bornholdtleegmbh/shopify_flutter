@@ -1,6 +1,6 @@
 /// Query to get products
 const String getProductsQuery = r'''
-query($metafields: [HasMetafieldsIdentifier!]!, $cursor : String, $reverse: Boolean, $country: CountryCode)  @inContext(country: $country){
+query($metafields: [HasMetafieldsIdentifier!]!, $varMetafields: [HasMetafieldsIdentifier!]!, $cursor : String, $reverse: Boolean, $country: CountryCode)  @inContext(country: $country){
   products(first: 250, after: $cursor, reverse: $reverse) {
     pageInfo {
       hasNextPage
@@ -57,6 +57,30 @@ query($metafields: [HasMetafieldsIdentifier!]!, $cursor : String, $reverse: Bool
               selectedOptions {
                 name
                 value
+              }
+              unitPriceMeasurement {
+                measuredType
+                quantityUnit
+                quantityValue
+                referenceUnit
+                referenceValue
+              }
+              metafields(identifiers: $varMetafields) {
+                id
+                type
+                key
+                namespace
+                value
+                description
+                reference {
+                  ... on MediaImage {
+                    image {
+                      originalSrc
+                      url
+                      id
+                    }
+                  }
+                }
               }
               sellingPlanAllocations(first: 250) {
                 nodes {

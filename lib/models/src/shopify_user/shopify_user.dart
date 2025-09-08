@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:shopify_flutter/models/src/shopify_user/address/address.dart';
+import 'package:shopify_flutter/models/models.dart';
 
-import 'addresses/addresses.dart';
 
 part 'shopify_user.freezed.dart';
 part 'shopify_user.g.dart';
@@ -22,10 +21,12 @@ class ShopifyUser with _$ShopifyUser {
     String? phone,
     List<String>? tags,
     Address? defaultAddress,
+    List<Metafield>? metafields,
   }) = _ShopifyUser;
 
   /// The shopify user from json factory
-  factory ShopifyUser.fromGraphJson(Map<String, dynamic> json) => ShopifyUser(
+  factory ShopifyUser.fromGraphJson(Map<String, dynamic> json) =>
+      ShopifyUser(
         address: Addresses.fromGraphJson(json['addresses'] ?? const {}),
         defaultAddress: json['defaultAddress'] == null
             ? null
@@ -38,6 +39,7 @@ class ShopifyUser with _$ShopifyUser {
         lastName: json['lastName'],
         phone: json['phone'],
         tags: _getTagList((json)),
+        metafields: _getMetafields(json),
       );
 
   /// The shopify user from json factory
@@ -48,5 +50,16 @@ class ShopifyUser with _$ShopifyUser {
     List<String> tagsList = [];
     json['tags']?.forEach((tag) => tagsList.add(tag));
     return tagsList;
+  }
+
+  static _getMetafields(Map<String, dynamic> json) {
+    List<Metafield> metafieldsList = [];
+    final metafields = json['metafields'];
+    if (metafields == null || metafields == []) return metafieldsList;
+    metafields.removeWhere((element) => element == null);
+    if (metafields == []) return metafieldsList;
+    metafields.forEach((metafield) =>
+        metafieldsList.add(Metafield.fromJson(metafield)));
+    return metafieldsList;
   }
 }

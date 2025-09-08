@@ -152,9 +152,6 @@ class Product with _$Product {
         metafields: _getMetafieldList(json),
       );
 
-  // factory Product.fromJson(Map<String, dynamic> json) =>
-  //     _$ProductFromJson(json);
-
   /// The product to json
   Map<String, dynamic> toJson() => _$ProductToJson(this);
 

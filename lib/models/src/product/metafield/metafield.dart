@@ -38,4 +38,5 @@ class Metafield with _$Metafield {
   /// The Metafield from json
   factory Metafield.fromJson(Map<String, dynamic> json) =>
       _$MetafieldFromJson(json);
+
 }

@@ -51,6 +51,15 @@ query($customerAccessToken : String!){
     id
     lastName
     phone
+    metafields(identifiers: [
+          ###_METAFIELDS_###,
+        ]) {
+          id
+          namespace
+          key
+          value
+          type
+        }
   }
 }
 ''';

@@ -11,11 +11,11 @@ class UnitPriceMeasurement with _$UnitPriceMeasurement {
 
   /// The unit price measurement constructor
   factory UnitPriceMeasurement({
-    required String measuredType,
-    required String quantityUnit,
-    required double quantityValue,
-    required String referenceUnit,
-    required int referenceValue,
+    String? measuredType,
+    String? quantityUnit,
+    double? quantityValue,
+    String? referenceUnit,
+    int? referenceValue,
   }) = _UnitPriceMeasurement;
 
   /// The unit price measurement from json

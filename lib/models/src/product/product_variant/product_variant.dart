@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:shopify_flutter/models/src/product/price_v_2/price_v_2.dart';
 import 'package:shopify_flutter/models/src/product/selected_option/selected_option.dart';
 import 'package:shopify_flutter/models/src/product/selling_plan_allocation/selling_plan_allocation.dart';
@@ -5,6 +7,7 @@ import 'package:shopify_flutter/models/src/product/shopify_image/shopify_image.d
 import 'package:shopify_flutter/models/src/product/unit_price_measurement/unit_price_measurement.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../metafield/metafield.dart';
 import '../product.dart';
 
 part 'product_variant.freezed.dart';
@@ -26,6 +29,7 @@ class ProductVariant with _$ProductVariant {
     required bool requiresShipping,
     required String id,
     required int quantityAvailable,
+    required List<Metafield> metafields,
     String? sku,
     PriceV2? unitPrice,
     UnitPriceMeasurement? unitPriceMeasurement,
@@ -64,6 +68,7 @@ class ProductVariant with _$ProductVariant {
       requiresShipping: nodeJson['requiresShipping'],
       id: nodeJson['id'],
       quantityAvailable: nodeJson['quantityAvailable'],
+      metafields: _getMetafieldList(nodeJson),
       sku: nodeJson['sku'],
       unitPrice: nodeJson['unitPrice'] != null
           ? PriceV2.fromJson(nodeJson['unitPrice'])
@@ -76,6 +81,45 @@ class ProductVariant with _$ProductVariant {
           ? Product.fromJson(nodeJson['product'])
           : null,
       sellingPlanAllocations: _getSellingPlanAllocationsList(nodeJson),
+    );
+  }
+
+  /// the product variant from line json
+  factory ProductVariant.fromLineJson(Map<String, dynamic> json) {
+
+
+    return ProductVariant(
+      price: json.containsKey('priceV2')
+          ? PriceV2.fromJson(json['priceV2'])
+          : PriceV2.fromJson(json['price']),
+      title: json['title'],
+      image: json['image'] != null
+          ? ShopifyImage.fromJson(json['image'])
+          : null,
+      compareAtPrice: json['compareAtPrice'] != null ||
+          json['compareAtPriceV2'] != null
+          ? json.containsKey('compareAtPrice')
+          ? PriceV2.fromJson(json['compareAtPrice'])
+          : PriceV2.fromJson(json['compareAtPriceV2'])
+          : null,
+      weight: double.tryParse(json['weight'].toString()) ?? 0.0,
+      weightUnit: json['weightUnit'],
+      availableForSale: json['availableForSale'],
+      requiresShipping: json['requiresShipping'],
+      id: json['id'],
+      quantityAvailable: json['quantityAvailable'],
+      metafields: _getMetafieldList(json),
+      sku: json['sku'],
+      unitPrice: json['unitPrice'] != null
+          ? PriceV2.fromJson(json['unitPrice'])
+          : null,
+      unitPriceMeasurement: json['unitPriceMeasurement'] != null
+          ? UnitPriceMeasurement.fromJson(json['unitPriceMeasurement'])
+          : null,
+      selectedOptions: _getOptionList((json)),
+      product: json['product'] != null
+          ? Product.fromJson(json['product'])
+          : null,
     );
   }
 
@@ -100,5 +144,21 @@ class ProductVariant with _$ProductVariant {
       }
     });
     return sellingPlanAllocationsList;
+  }
+
+  static List<Metafield> _getMetafieldList(Map<String, dynamic> json) {
+    try {
+        if (json['metafields'] == null) return [];
+
+        var list = (json['metafields']) as List;
+
+        return list.where((entry) => entry != null).map((entry) {
+          log("Mapping entry: $entry");
+          return Metafield.fromGraphJson(entry);
+        }).toList();
+    } catch (e) {
+      log("_getMetafieldList error: $e");
+      return [];
+    }
   }
 }
