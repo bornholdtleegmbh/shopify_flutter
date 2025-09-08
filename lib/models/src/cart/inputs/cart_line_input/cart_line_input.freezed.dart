@@ -23,13 +23,10 @@ mixin _$CartLineInput {
   String get merchandiseId => throw _privateConstructorUsedError;
   int get quantity => throw _privateConstructorUsedError;
   String? get sellingPlanId => throw _privateConstructorUsedError;
+  List<AttributeInput?> get attributes => throw _privateConstructorUsedError;
 
-  /// Serializes this CartLineInput to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of CartLineInput
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $CartLineInputCopyWith<CartLineInput> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -40,7 +37,11 @@ abstract class $CartLineInputCopyWith<$Res> {
           CartLineInput value, $Res Function(CartLineInput) then) =
       _$CartLineInputCopyWithImpl<$Res, CartLineInput>;
   @useResult
-  $Res call({String merchandiseId, int quantity, String? sellingPlanId});
+  $Res call(
+      {String merchandiseId,
+      int quantity,
+      String? sellingPlanId,
+      List<AttributeInput?> attributes});
 }
 
 /// @nodoc
@@ -53,14 +54,13 @@ class _$CartLineInputCopyWithImpl<$Res, $Val extends CartLineInput>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of CartLineInput
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? merchandiseId = null,
     Object? quantity = null,
     Object? sellingPlanId = freezed,
+    Object? attributes = null,
   }) {
     return _then(_value.copyWith(
       merchandiseId: null == merchandiseId
@@ -75,6 +75,10 @@ class _$CartLineInputCopyWithImpl<$Res, $Val extends CartLineInput>
           ? _value.sellingPlanId
           : sellingPlanId // ignore: cast_nullable_to_non_nullable
               as String?,
+      attributes: null == attributes
+          ? _value.attributes
+          : attributes // ignore: cast_nullable_to_non_nullable
+              as List<AttributeInput?>,
     ) as $Val);
   }
 }
@@ -87,7 +91,11 @@ abstract class _$$CartLineInputImplCopyWith<$Res>
       __$$CartLineInputImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String merchandiseId, int quantity, String? sellingPlanId});
+  $Res call(
+      {String merchandiseId,
+      int quantity,
+      String? sellingPlanId,
+      List<AttributeInput?> attributes});
 }
 
 /// @nodoc
@@ -98,14 +106,13 @@ class __$$CartLineInputImplCopyWithImpl<$Res>
       _$CartLineInputImpl _value, $Res Function(_$CartLineInputImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of CartLineInput
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? merchandiseId = null,
     Object? quantity = null,
     Object? sellingPlanId = freezed,
+    Object? attributes = null,
   }) {
     return _then(_$CartLineInputImpl(
       merchandiseId: null == merchandiseId
@@ -120,6 +127,10 @@ class __$$CartLineInputImplCopyWithImpl<$Res>
           ? _value.sellingPlanId
           : sellingPlanId // ignore: cast_nullable_to_non_nullable
               as String?,
+      attributes: null == attributes
+          ? _value._attributes
+          : attributes // ignore: cast_nullable_to_non_nullable
+              as List<AttributeInput?>,
     ));
   }
 }
@@ -128,8 +139,12 @@ class __$$CartLineInputImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CartLineInputImpl extends _CartLineInput {
   _$CartLineInputImpl(
-      {required this.merchandiseId, required this.quantity, this.sellingPlanId})
-      : super._();
+      {required this.merchandiseId,
+      required this.quantity,
+      this.sellingPlanId,
+      final List<AttributeInput?> attributes = const []})
+      : _attributes = attributes,
+        super._();
 
   factory _$CartLineInputImpl.fromJson(Map<String, dynamic> json) =>
       _$$CartLineInputImplFromJson(json);
@@ -140,10 +155,18 @@ class _$CartLineInputImpl extends _CartLineInput {
   final int quantity;
   @override
   final String? sellingPlanId;
+  final List<AttributeInput?> _attributes;
+  @override
+  @JsonKey()
+  List<AttributeInput?> get attributes {
+    if (_attributes is EqualUnmodifiableListView) return _attributes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_attributes);
+  }
 
   @override
   String toString() {
-    return 'CartLineInput(merchandiseId: $merchandiseId, quantity: $quantity, sellingPlanId: $sellingPlanId)';
+    return 'CartLineInput(merchandiseId: $merchandiseId, quantity: $quantity, sellingPlanId: $sellingPlanId, attributes: $attributes)';
   }
 
   @override
@@ -156,17 +179,17 @@ class _$CartLineInputImpl extends _CartLineInput {
             (identical(other.quantity, quantity) ||
                 other.quantity == quantity) &&
             (identical(other.sellingPlanId, sellingPlanId) ||
-                other.sellingPlanId == sellingPlanId));
+                other.sellingPlanId == sellingPlanId) &&
+            const DeepCollectionEquality()
+                .equals(other._attributes, _attributes));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, merchandiseId, quantity, sellingPlanId);
+  int get hashCode => Object.hash(runtimeType, merchandiseId, quantity,
+      sellingPlanId, const DeepCollectionEquality().hash(_attributes));
 
-  /// Create a copy of CartLineInput
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$CartLineInputImplCopyWith<_$CartLineInputImpl> get copyWith =>
@@ -184,7 +207,8 @@ abstract class _CartLineInput extends CartLineInput {
   factory _CartLineInput(
       {required final String merchandiseId,
       required final int quantity,
-      final String? sellingPlanId}) = _$CartLineInputImpl;
+      final String? sellingPlanId,
+      final List<AttributeInput?> attributes}) = _$CartLineInputImpl;
   _CartLineInput._() : super._();
 
   factory _CartLineInput.fromJson(Map<String, dynamic> json) =
@@ -196,11 +220,10 @@ abstract class _CartLineInput extends CartLineInput {
   int get quantity;
   @override
   String? get sellingPlanId;
-
-  /// Create a copy of CartLineInput
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<AttributeInput?> get attributes;
+  @override
+  @JsonKey(ignore: true)
   _$$CartLineInputImplCopyWith<_$CartLineInputImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

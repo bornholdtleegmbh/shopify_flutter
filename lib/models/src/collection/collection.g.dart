@@ -11,6 +11,9 @@ _$CollectionImpl _$$CollectionImplFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       id: json['id'] as String,
       products: Products.fromJson(json['products'] as Map<String, dynamic>),
+      metafields: (json['metafields'] as List<dynamic>)
+          .map((e) => Metafield.fromJson(e as Map<String, dynamic>))
+          .toList(),
       cursor: json['cursor'] as String?,
       description: json['description'] as String?,
       descriptionHtml: json['descriptionHtml'] as String?,
@@ -25,11 +28,12 @@ Map<String, dynamic> _$$CollectionImplToJson(_$CollectionImpl instance) =>
     <String, dynamic>{
       'title': instance.title,
       'id': instance.id,
-      'products': instance.products,
+      'products': instance.products.toJson(),
+      'metafields': instance.metafields.map((e) => e.toJson()).toList(),
       'cursor': instance.cursor,
       'description': instance.description,
       'descriptionHtml': instance.descriptionHtml,
       'handle': instance.handle,
       'updatedAt': instance.updatedAt,
-      'image': instance.image,
+      'image': instance.image?.toJson(),
     };

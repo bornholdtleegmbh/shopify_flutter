@@ -1,11 +1,21 @@
 import 'dart:developer';
 import 'dart:math' hide log;
 
+import 'package:example/constants.dart';
 import 'package:example/extension.dart';
 import 'package:example/screens/checkout_webview.dart';
 import 'package:flutter/material.dart';
 import 'package:shopify_flutter/mixins/src/shopify_error.dart';
+import 'package:shopify_flutter/models/src/cart/inputs/attribute_input/attribute_input.dart';
 import 'package:shopify_flutter/shopify_flutter.dart';
+
+void logCartInfo(Cart cart) {
+  log('log => cart id: ${cart.id}');
+  log('log => cart attributes: ${cart.attributes}');
+  for (final line in cart.lines) {
+    log('log => line attributes: ${line.attributes}');
+  }
+}
 
 class CartTab extends StatefulWidget {
   const CartTab({super.key});
@@ -31,8 +41,7 @@ class _CartTabState extends State<CartTab> {
   void init() {
     createCart();
     // getCartById(
-    //     "gid://shopify/Cart/Z2NwLWFzaWEtc291dGhlYXN0MTowMUo2VkZYNk1GWTc0U0NYMDhNRUNSRk5TQw?key=521a54e45a74a00ebbcc36fa425d0f61");
-
+    //     "gid://shopify/Cart/Z2NwLWFzaWEtc291dGhlYXN0MTowMUpNVlpEVzM2NzBIUDRRMkFDVlRSQlBTQw?key=dae05650ee227d4a76f893756fa1be48");
     getNProducts();
   }
 
@@ -41,13 +50,20 @@ class _CartTabState extends State<CartTab> {
     final CartInput cartInput = CartInput(
       // discountCodes: [],
       buyerIdentity: CartBuyerIdentityInput(
-        email: 'test@yopmail.com',
+        email: kUserEmail,
         customerAccessToken: accessToken,
       ),
+      attributes: [
+        AttributeInput(
+          key: 'color',
+          value: 'Blue',
+        ),
+      ],
     );
     try {
       cart = await shopifyCart.createCart(cartInput);
       setState(() {});
+      logCartInfo(cart!);
     } on ShopifyException catch (error) {
       log('createCart ShopifyException: $error');
       if (!mounted) return;
@@ -65,6 +81,7 @@ class _CartTabState extends State<CartTab> {
       setState(() {
         cart = cartResponse;
       });
+      logCartInfo(cart!);
     } on ShopifyException catch (error) {
       log('getCartById ShopifyException: $error');
       if (!mounted) return;
@@ -88,26 +105,32 @@ class _CartTabState extends State<CartTab> {
     final cartLineInput = CartLineUpdateInput(
       quantity: 1,
       merchandiseId: product.productVariants.first.id,
+      attributes: [
+        AttributeInput(
+          key: 'color',
+          value: 'red',
+        ),
+      ],
     );
-    try {
-      final updatedCart = await shopifyCart.addLineItemsToCart(
-        cartId: cart!.id,
-        cartLineInputs: [cartLineInput],
-      );
-      setState(() {
-        cart = updatedCart;
-      });
-      log('cart: $cart');
-      if (!mounted) return;
-      context.showSnackBar('Added ${product.title} to cart');
-    } on ShopifyException catch (error) {
-      log('addLineItemToCart ShopifyException: $error');
-      context.showSnackBar(
-        error.errors?[0]["message"] ?? 'Error adding item to cart',
-      );
-    } catch (error) {
-      log('addLineItemToCart Error: $error');
-    }
+    // try {
+    final updatedCart = await shopifyCart.addLineItemsToCart(
+      cartId: cart!.id,
+      cartLineInputs: [cartLineInput],
+    );
+    setState(() {
+      cart = updatedCart;
+    });
+    logCartInfo(updatedCart);
+    if (!mounted) return;
+    context.showSnackBar('Added ${product.title} to cart');
+    // } on ShopifyException catch (error) {
+    //   log('addLineItemToCart ShopifyException: $error');
+    //   context.showSnackBar(
+    //     error.errors?[0]["message"] ?? 'Error adding item to cart',
+    //   );
+    // } catch (error) {
+    //   log('addLineItemToCart Error: $error');
+    // }
   }
 
   void onCartItemUpdate() async {
@@ -120,6 +143,13 @@ class _CartTabState extends State<CartTab> {
       appBar: AppBar(
         title: const Text('Cart'),
         actions: [
+          if (cart != null)
+            IconButton(
+              onPressed: () {
+                getCartById(cart!.id);
+              },
+              icon: const Icon(Icons.refresh),
+            ),
           if (cart != null)
             IconButton(
               onPressed: () {
@@ -192,6 +222,7 @@ class _CartInfoState extends State<CartInfo> {
     super.initState();
     cart = widget.cart;
     noteCtrl.text = cart.note ?? '';
+    logCartInfo(cart);
   }
 
   void removeLineItemFromCart(String lineId) async {
@@ -234,6 +265,13 @@ class _CartInfoState extends State<CartInfo> {
         id: "${line.id}",
         quantity: quantity,
         merchandiseId: "${line.variantId}",
+        attributes: [
+          AttributeInput(
+            key: 'color',
+            value: 'blue',
+          ),
+          AttributeInput(key: 'Misc', value: '1')
+        ],
       );
       final updatedCart = await shopifyCart.updateLineItemsInCart(
         cartId: cart.id,

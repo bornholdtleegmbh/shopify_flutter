@@ -1,3 +1,5 @@
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:shopify_flutter/graphql_operations/storefront/mutations/cart/cart_attributes_update_mutation.dart';
 import 'package:shopify_flutter/graphql_operations/storefront/mutations/cart/cart_buyer_identity_update.dart';
 import 'package:shopify_flutter/graphql_operations/storefront/mutations/cart/cart_create.dart';
 import 'package:shopify_flutter/graphql_operations/storefront/mutations/cart/cart_discount_code_update_mutation.dart';
@@ -7,8 +9,8 @@ import 'package:shopify_flutter/graphql_operations/storefront/mutations/cart/car
 import 'package:shopify_flutter/graphql_operations/storefront/mutations/cart/cart_note_update.dart';
 import 'package:shopify_flutter/graphql_operations/storefront/queries/get_cart_by_id.dart';
 import 'package:shopify_flutter/mixins/src/shopify_error.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:shopify_flutter/models/src/cart/cart_model.dart';
+import 'package:shopify_flutter/models/src/cart/inputs/attribute_input/attribute_input.dart';
 import 'package:shopify_flutter/shopify/src/shopify_localization.dart';
 
 import '../../shopify_config.dart';
@@ -25,17 +27,24 @@ class ShopifyCart with ShopifyError {
   /// Returns a [Cart] object.
   ///
   /// Returns the [Cart] object of the Cart with the [cartId].
-  Future<Cart> getCartById(String cartId) async {
+  ///
+  /// If the [reverse] is set to true, the line items in the cart will be in reverse order.
+  Future<Cart?> getCartById(String cartId, {bool reverse = false}) async {
     final cartById = WatchQueryOptions(
       document: gql(getCartByIdQuery),
       variables: {
         'id': cartId,
         'country': ShopifyLocalization.countryCode,
+        'reverse': reverse
       },
       fetchPolicy: ShopifyConfig.fetchPolicy,
     );
     QueryResult result = await _graphQLClient!.query(cartById);
     checkForError(result);
+
+    if (result.data?['cart'] == null) {
+      return null;
+    }
 
     return Cart.fromJson(result.data!['cart'] ?? const {});
   }
@@ -47,6 +56,7 @@ class ShopifyCart with ShopifyError {
       'lines': cartInput.lines.map((e) => e?.toJson()).toList(),
       'note': cartInput.note,
       'buyerIdentity': cartInput.buyerIdentity?.toJson(),
+      'attributes': cartInput.attributes.map((e) => e?.toJson()).toList(),
     };
     final MutationOptions createCart = MutationOptions(
       document: gql(cartCreateMutation),
@@ -63,9 +73,12 @@ class ShopifyCart with ShopifyError {
   }
 
   /// add line item to cart
+  ///
+  /// If the [reverse] is set to true, the line items in the cart will be in reverse order.
   Future<Cart> addLineItemsToCart({
     required String cartId,
     required List<CartLineUpdateInput> cartLineInputs,
+    bool reverse = false,
   }) async {
     final lineInputs = cartLineInputs.map((e) {
       final json = e.toJson();
@@ -77,7 +90,8 @@ class ShopifyCart with ShopifyError {
       variables: {
         'cartId': cartId,
         'lines': lineInputs,
-        'country': ShopifyLocalization.countryCode
+        'country': ShopifyLocalization.countryCode,
+        'reverse': reverse
       },
     );
     QueryResult result = await _graphQLClient!.mutate(addLineItem);
@@ -88,16 +102,20 @@ class ShopifyCart with ShopifyError {
   }
 
   /// remove line item from cart
+  ///
+  /// If the [reverse] is set to true, the line items in the cart will be in reverse order.
   Future<Cart> removeLineItemsFromCart({
     required String cartId,
     required List<String> lineIds,
+    bool reverse = false,
   }) async {
     final MutationOptions removeLineItem = MutationOptions(
       document: gql(removeLineItemFromCartMutation),
       variables: {
         'cartId': cartId,
         'lineIds': lineIds,
-        'country': ShopifyLocalization.countryCode
+        'country': ShopifyLocalization.countryCode,
+        'reverse': reverse
       },
     );
     QueryResult result = await _graphQLClient!.mutate(removeLineItem);
@@ -108,9 +126,12 @@ class ShopifyCart with ShopifyError {
   }
 
   /// update line items in cart
+  ///
+  /// If the [reverse] is set to true, the line items in the cart will be in reverse order.
   Future<Cart> updateLineItemsInCart({
     required String cartId,
     required List<CartLineUpdateInput> cartLineInputs,
+    bool reverse = false,
   }) async {
     final lineInputs = cartLineInputs.map((e) => e.toJson()).toList();
     final MutationOptions updateLineItem = MutationOptions(
@@ -119,6 +140,7 @@ class ShopifyCart with ShopifyError {
         'cartId': cartId,
         'lines': lineInputs,
         'country': ShopifyLocalization.countryCode,
+        'reverse': reverse
       },
     );
     QueryResult result = await _graphQLClient!.mutate(updateLineItem);
@@ -129,9 +151,12 @@ class ShopifyCart with ShopifyError {
   }
 
   /// update note in cart
+  ///
+  /// If the [reverse] is set to true, the line items in the cart will be in reverse order.
   Future<Cart> updateNoteInCart({
     required String cartId,
     required String note,
+    bool reverse = false,
   }) async {
     final MutationOptions updateNote = MutationOptions(
       document: gql(updateNoteInCartMutation),
@@ -139,6 +164,7 @@ class ShopifyCart with ShopifyError {
         'cartId': cartId,
         'note': note,
         'country': ShopifyLocalization.countryCode,
+        'reverse': reverse,
       },
     );
     QueryResult result = await _graphQLClient!.mutate(updateNote);
@@ -149,9 +175,12 @@ class ShopifyCart with ShopifyError {
   }
 
   /// update cart discount codes
+  ///
+  /// If the [reverse] is set to true, the line items in the cart will be in reverse order.
   Future<Cart> updateCartDiscountCodes({
     required String cartId,
     required List<String> discountCodes,
+    bool reverse = false,
   }) async {
     final MutationOptions updateDiscountCodes = MutationOptions(
       document: gql(updateCartDiscountCodesMutation),
@@ -159,6 +188,7 @@ class ShopifyCart with ShopifyError {
         'cartId': cartId,
         'discountCodes': discountCodes,
         'country': ShopifyLocalization.countryCode,
+        'reverse': reverse
       },
     );
     QueryResult result = await _graphQLClient!.mutate(updateDiscountCodes);
@@ -171,9 +201,12 @@ class ShopifyCart with ShopifyError {
   }
 
   /// update Buyer identity in cart
+  ///
+  /// If the [reverse] is set to true, the line items in the cart will be in reverse order.
   Future<Cart> updateBuyerIdentityInCart({
     required String cartId,
     required CartBuyerIdentityInput buyerIdentity,
+    bool reverse = false,
   }) async {
     final deliveryAddressPreferences = buyerIdentity.deliveryAddressPreferences;
     List<Map<String, dynamic>> deliveryAddressPreferencesData = [];
@@ -200,6 +233,7 @@ class ShopifyCart with ShopifyError {
       document: gql(cartBuyerIdentityUpdate),
       variables: {
         'cartId': cartId,
+        'reverse': reverse,
         'buyerIdentity': {
           'email': buyerIdentity.email,
           'phone': buyerIdentity.phone,
@@ -216,6 +250,31 @@ class ShopifyCart with ShopifyError {
 
     return Cart.fromJson(
         ((result.data!['cartBuyerIdentityUpdate'] ?? const {})['cart'] ??
+            const {}));
+  }
+
+  /// update cart atributes
+  ///
+  /// If the [reverse] is set to true, the line items in the cart will be in reverse order.
+  Future<Cart> updateCartAttributes({
+    required String cartId,
+    required List<AttributeInput> attributes,
+    bool reverse = false,
+  }) async {
+    final MutationOptions updateAttributes = MutationOptions(
+      document: gql(updateCartAttributesMutation),
+      variables: {
+        'cartId': cartId,
+        'attributes': attributes.map((e) => e.toJson()).toList(),
+        'country': ShopifyLocalization.countryCode,
+        'reverse': reverse
+      },
+    );
+    QueryResult result = await _graphQLClient!.mutate(updateAttributes);
+    checkForError(result, key: 'cartAttributesUpdate', errorKey: 'userErrors');
+
+    return Cart.fromJson(
+        ((result.data!['cartAttributesUpdate'] ?? const {})['cart'] ??
             const {}));
   }
 }

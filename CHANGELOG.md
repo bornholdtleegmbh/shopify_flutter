@@ -1,11 +1,74 @@
+# 2.6.0
+
+* Removed published and updated date from product
+
+# 2.5.6
+
+* Added `sellingPlanAllocations` to the Order Item Variant
+
+# 2.5.5
+
+* [GraphQL Intl plugin compatibility](https://github.com/imsujan276/shopify_flutter/pull/120)
+* [Generate toJson for nested models](https://github.com/imsujan276/shopify_flutter/pull/121)
+* Updated example app
+
+# 2.5.4
+
+* Update type of `adjustmentPercentage` to `num` so that it works for both **int** and **double** data types
+
+# 2.5.3
+
+* Added `reverse` flag in cart
+  - If the `reverse` is set to true, the line items in the cart will be in reverse order.
+
+# 2.5.2
+
+* Made phone number option on user/customer creation
+* Better error handling
+* Updated readme file for better experience
+
+# 2.5.1
+
+* `updateCartAttributes()` mutation fix
+
+# 2.5.0
+
+* Added 
+  - `attributes` to cart
+  - `attributes` to cart line items
+  - `updateCartAttributes()` to update the attributes associated to cart
+
+# 2.4.0
+
+* [Added metafield support](https://github.com/imsujan276/shopify_flutter/pull/112) to products and collections 
+
+# 2.3.3
+
+* Minor fixes in product selling plan allocations
+
+# 2.3.1
+
+* Upgraded SDK version to '>=3.3.0 <4.0.0'
+* Upgraded Intl version
+
+# 2.3.0
+
+* Added Selling Plan Allocations in product variants
+
+
 # 2.2.8
+
 * Cart Line Input Model updated
 
+
 # 2.2.7
+
 * Cart Customer: made properties nullable
   - phone, email, firstName and lastName
 
+
 # 2.2.6
+
 * Cart issue resolved when passed customer access token
 
 

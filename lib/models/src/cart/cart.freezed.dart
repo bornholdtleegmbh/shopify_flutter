@@ -29,18 +29,15 @@ mixin _$Cart {
   List<CartDiscountCode?>? get discountCodes =>
       throw _privateConstructorUsedError;
   String? get createdAt => throw _privateConstructorUsedError;
+  List<Attribute?>? get attributes => throw _privateConstructorUsedError;
   CartBuyerIdentity? get buyerIdentity => throw _privateConstructorUsedError;
   String? get note => throw _privateConstructorUsedError;
   String? get updatedAt => throw _privateConstructorUsedError;
   @JsonKey(fromJson: JsonHelper.lines)
   List<Line> get lines => throw _privateConstructorUsedError;
 
-  /// Serializes this Cart to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Cart
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $CartCopyWith<Cart> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -57,6 +54,7 @@ abstract class $CartCopyWith<$Res> {
       List<CartDiscountAllocation?>? discountAllocations,
       List<CartDiscountCode?>? discountCodes,
       String? createdAt,
+      List<Attribute?>? attributes,
       CartBuyerIdentity? buyerIdentity,
       String? note,
       String? updatedAt,
@@ -76,8 +74,6 @@ class _$CartCopyWithImpl<$Res, $Val extends Cart>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Cart
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -88,6 +84,7 @@ class _$CartCopyWithImpl<$Res, $Val extends Cart>
     Object? discountAllocations = freezed,
     Object? discountCodes = freezed,
     Object? createdAt = freezed,
+    Object? attributes = freezed,
     Object? buyerIdentity = freezed,
     Object? note = freezed,
     Object? updatedAt = freezed,
@@ -122,6 +119,10 @@ class _$CartCopyWithImpl<$Res, $Val extends Cart>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String?,
+      attributes: freezed == attributes
+          ? _value.attributes
+          : attributes // ignore: cast_nullable_to_non_nullable
+              as List<Attribute?>?,
       buyerIdentity: freezed == buyerIdentity
           ? _value.buyerIdentity
           : buyerIdentity // ignore: cast_nullable_to_non_nullable
@@ -141,8 +142,6 @@ class _$CartCopyWithImpl<$Res, $Val extends Cart>
     ) as $Val);
   }
 
-  /// Create a copy of Cart
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CartCostCopyWith<$Res>? get cost {
@@ -155,8 +154,6 @@ class _$CartCopyWithImpl<$Res, $Val extends Cart>
     });
   }
 
-  /// Create a copy of Cart
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CartBuyerIdentityCopyWith<$Res>? get buyerIdentity {
@@ -185,6 +182,7 @@ abstract class _$$CartImplCopyWith<$Res> implements $CartCopyWith<$Res> {
       List<CartDiscountAllocation?>? discountAllocations,
       List<CartDiscountCode?>? discountCodes,
       String? createdAt,
+      List<Attribute?>? attributes,
       CartBuyerIdentity? buyerIdentity,
       String? note,
       String? updatedAt,
@@ -203,8 +201,6 @@ class __$$CartImplCopyWithImpl<$Res>
   __$$CartImplCopyWithImpl(_$CartImpl _value, $Res Function(_$CartImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Cart
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -215,6 +211,7 @@ class __$$CartImplCopyWithImpl<$Res>
     Object? discountAllocations = freezed,
     Object? discountCodes = freezed,
     Object? createdAt = freezed,
+    Object? attributes = freezed,
     Object? buyerIdentity = freezed,
     Object? note = freezed,
     Object? updatedAt = freezed,
@@ -249,6 +246,10 @@ class __$$CartImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String?,
+      attributes: freezed == attributes
+          ? _value._attributes
+          : attributes // ignore: cast_nullable_to_non_nullable
+              as List<Attribute?>?,
       buyerIdentity: freezed == buyerIdentity
           ? _value.buyerIdentity
           : buyerIdentity // ignore: cast_nullable_to_non_nullable
@@ -280,12 +281,14 @@ class _$CartImpl extends _Cart {
       required final List<CartDiscountAllocation?>? discountAllocations,
       required final List<CartDiscountCode?>? discountCodes,
       required this.createdAt,
+      final List<Attribute?>? attributes,
       this.buyerIdentity,
       this.note,
       this.updatedAt,
       @JsonKey(fromJson: JsonHelper.lines) required final List<Line> lines})
       : _discountAllocations = discountAllocations,
         _discountCodes = discountCodes,
+        _attributes = attributes,
         _lines = lines,
         super._();
 
@@ -323,6 +326,16 @@ class _$CartImpl extends _Cart {
 
   @override
   final String? createdAt;
+  final List<Attribute?>? _attributes;
+  @override
+  List<Attribute?>? get attributes {
+    final value = _attributes;
+    if (value == null) return null;
+    if (_attributes is EqualUnmodifiableListView) return _attributes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final CartBuyerIdentity? buyerIdentity;
   @override
@@ -340,7 +353,7 @@ class _$CartImpl extends _Cart {
 
   @override
   String toString() {
-    return 'Cart(id: $id, checkoutUrl: $checkoutUrl, cost: $cost, totalQuantity: $totalQuantity, discountAllocations: $discountAllocations, discountCodes: $discountCodes, createdAt: $createdAt, buyerIdentity: $buyerIdentity, note: $note, updatedAt: $updatedAt, lines: $lines)';
+    return 'Cart(id: $id, checkoutUrl: $checkoutUrl, cost: $cost, totalQuantity: $totalQuantity, discountAllocations: $discountAllocations, discountCodes: $discountCodes, createdAt: $createdAt, attributes: $attributes, buyerIdentity: $buyerIdentity, note: $note, updatedAt: $updatedAt, lines: $lines)';
   }
 
   @override
@@ -360,6 +373,8 @@ class _$CartImpl extends _Cart {
                 .equals(other._discountCodes, _discountCodes) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            const DeepCollectionEquality()
+                .equals(other._attributes, _attributes) &&
             (identical(other.buyerIdentity, buyerIdentity) ||
                 other.buyerIdentity == buyerIdentity) &&
             (identical(other.note, note) || other.note == note) &&
@@ -368,7 +383,7 @@ class _$CartImpl extends _Cart {
             const DeepCollectionEquality().equals(other._lines, _lines));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -379,14 +394,13 @@ class _$CartImpl extends _Cart {
       const DeepCollectionEquality().hash(_discountAllocations),
       const DeepCollectionEquality().hash(_discountCodes),
       createdAt,
+      const DeepCollectionEquality().hash(_attributes),
       buyerIdentity,
       note,
       updatedAt,
       const DeepCollectionEquality().hash(_lines));
 
-  /// Create a copy of Cart
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$CartImplCopyWith<_$CartImpl> get copyWith =>
@@ -409,6 +423,7 @@ abstract class _Cart extends Cart {
       required final List<CartDiscountAllocation?>? discountAllocations,
       required final List<CartDiscountCode?>? discountCodes,
       required final String? createdAt,
+      final List<Attribute?>? attributes,
       final CartBuyerIdentity? buyerIdentity,
       final String? note,
       final String? updatedAt,
@@ -433,6 +448,8 @@ abstract class _Cart extends Cart {
   @override
   String? get createdAt;
   @override
+  List<Attribute?>? get attributes;
+  @override
   CartBuyerIdentity? get buyerIdentity;
   @override
   String? get note;
@@ -441,11 +458,8 @@ abstract class _Cart extends Cart {
   @override
   @JsonKey(fromJson: JsonHelper.lines)
   List<Line> get lines;
-
-  /// Create a copy of Cart
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$CartImplCopyWith<_$CartImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
