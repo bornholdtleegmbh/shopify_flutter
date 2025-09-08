@@ -27,6 +27,8 @@ class ShopifyCustomer with ShopifyError {
 
   /// Updated the Address of a Customer, please input only the fields that you wish to update.
   Future<void> customerAddressUpdate({
+    required String customerAccessToken,
+    required String id,
     String? address1,
     String? address2,
     String? company,
@@ -37,8 +39,6 @@ class ShopifyCustomer with ShopifyError {
     String? phone,
     String? province,
     String? zip,
-    required String customerAccessToken,
-    required String id,
   }) async {
     final MutationOptions _options = MutationOptions(document: gql(customerAddressUpdateMutation), variables: {
       'address1': address1,

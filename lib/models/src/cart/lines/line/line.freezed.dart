@@ -27,13 +27,12 @@ mixin _$Line {
   String? get variantId => throw _privateConstructorUsedError;
   List<CartDiscountAllocation?>? get discountAllocations =>
       throw _privateConstructorUsedError;
+  SellingPlanAllocation? get sellingPlanAllocation =>
+      throw _privateConstructorUsedError;
+  List<Attribute?>? get attributes => throw _privateConstructorUsedError;
 
-  /// Serializes this Line to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Line
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $LineCopyWith<Line> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -48,10 +47,13 @@ abstract class $LineCopyWith<$Res> {
       CartLineCost? cost,
       ProductVariant? merchandise,
       String? variantId,
-      List<CartDiscountAllocation?>? discountAllocations});
+      List<CartDiscountAllocation?>? discountAllocations,
+      SellingPlanAllocation? sellingPlanAllocation,
+      List<Attribute?>? attributes});
 
   $CartLineCostCopyWith<$Res>? get cost;
   $ProductVariantCopyWith<$Res>? get merchandise;
+  $SellingPlanAllocationCopyWith<$Res>? get sellingPlanAllocation;
 }
 
 /// @nodoc
@@ -64,8 +66,6 @@ class _$LineCopyWithImpl<$Res, $Val extends Line>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Line
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -75,6 +75,8 @@ class _$LineCopyWithImpl<$Res, $Val extends Line>
     Object? merchandise = freezed,
     Object? variantId = freezed,
     Object? discountAllocations = freezed,
+    Object? sellingPlanAllocation = freezed,
+    Object? attributes = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -101,11 +103,17 @@ class _$LineCopyWithImpl<$Res, $Val extends Line>
           ? _value.discountAllocations
           : discountAllocations // ignore: cast_nullable_to_non_nullable
               as List<CartDiscountAllocation?>?,
+      sellingPlanAllocation: freezed == sellingPlanAllocation
+          ? _value.sellingPlanAllocation
+          : sellingPlanAllocation // ignore: cast_nullable_to_non_nullable
+              as SellingPlanAllocation?,
+      attributes: freezed == attributes
+          ? _value.attributes
+          : attributes // ignore: cast_nullable_to_non_nullable
+              as List<Attribute?>?,
     ) as $Val);
   }
 
-  /// Create a copy of Line
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CartLineCostCopyWith<$Res>? get cost {
@@ -118,8 +126,6 @@ class _$LineCopyWithImpl<$Res, $Val extends Line>
     });
   }
 
-  /// Create a copy of Line
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ProductVariantCopyWith<$Res>? get merchandise {
@@ -129,6 +135,19 @@ class _$LineCopyWithImpl<$Res, $Val extends Line>
 
     return $ProductVariantCopyWith<$Res>(_value.merchandise!, (value) {
       return _then(_value.copyWith(merchandise: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SellingPlanAllocationCopyWith<$Res>? get sellingPlanAllocation {
+    if (_value.sellingPlanAllocation == null) {
+      return null;
+    }
+
+    return $SellingPlanAllocationCopyWith<$Res>(_value.sellingPlanAllocation!,
+        (value) {
+      return _then(_value.copyWith(sellingPlanAllocation: value) as $Val);
     });
   }
 }
@@ -146,12 +165,16 @@ abstract class _$$LineImplCopyWith<$Res> implements $LineCopyWith<$Res> {
       CartLineCost? cost,
       ProductVariant? merchandise,
       String? variantId,
-      List<CartDiscountAllocation?>? discountAllocations});
+      List<CartDiscountAllocation?>? discountAllocations,
+      SellingPlanAllocation? sellingPlanAllocation,
+      List<Attribute?>? attributes});
 
   @override
   $CartLineCostCopyWith<$Res>? get cost;
   @override
   $ProductVariantCopyWith<$Res>? get merchandise;
+  @override
+  $SellingPlanAllocationCopyWith<$Res>? get sellingPlanAllocation;
 }
 
 /// @nodoc
@@ -161,8 +184,6 @@ class __$$LineImplCopyWithImpl<$Res>
   __$$LineImplCopyWithImpl(_$LineImpl _value, $Res Function(_$LineImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Line
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -172,6 +193,8 @@ class __$$LineImplCopyWithImpl<$Res>
     Object? merchandise = freezed,
     Object? variantId = freezed,
     Object? discountAllocations = freezed,
+    Object? sellingPlanAllocation = freezed,
+    Object? attributes = freezed,
   }) {
     return _then(_$LineImpl(
       id: freezed == id
@@ -198,6 +221,14 @@ class __$$LineImplCopyWithImpl<$Res>
           ? _value._discountAllocations
           : discountAllocations // ignore: cast_nullable_to_non_nullable
               as List<CartDiscountAllocation?>?,
+      sellingPlanAllocation: freezed == sellingPlanAllocation
+          ? _value.sellingPlanAllocation
+          : sellingPlanAllocation // ignore: cast_nullable_to_non_nullable
+              as SellingPlanAllocation?,
+      attributes: freezed == attributes
+          ? _value._attributes
+          : attributes // ignore: cast_nullable_to_non_nullable
+              as List<Attribute?>?,
     ));
   }
 }
@@ -211,8 +242,11 @@ class _$LineImpl extends _Line {
       this.cost,
       this.merchandise,
       this.variantId,
-      final List<CartDiscountAllocation?>? discountAllocations})
+      final List<CartDiscountAllocation?>? discountAllocations,
+      this.sellingPlanAllocation,
+      final List<Attribute?>? attributes})
       : _discountAllocations = discountAllocations,
+        _attributes = attributes,
         super._();
 
   factory _$LineImpl.fromJson(Map<String, dynamic> json) =>
@@ -240,8 +274,20 @@ class _$LineImpl extends _Line {
   }
 
   @override
+  final SellingPlanAllocation? sellingPlanAllocation;
+  final List<Attribute?>? _attributes;
+  @override
+  List<Attribute?>? get attributes {
+    final value = _attributes;
+    if (value == null) return null;
+    if (_attributes is EqualUnmodifiableListView) return _attributes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
   String toString() {
-    return 'Line(id: $id, quantity: $quantity, cost: $cost, merchandise: $merchandise, variantId: $variantId, discountAllocations: $discountAllocations)';
+    return 'Line(id: $id, quantity: $quantity, cost: $cost, merchandise: $merchandise, variantId: $variantId, discountAllocations: $discountAllocations, sellingPlanAllocation: $sellingPlanAllocation, attributes: $attributes)';
   }
 
   @override
@@ -258,17 +304,27 @@ class _$LineImpl extends _Line {
             (identical(other.variantId, variantId) ||
                 other.variantId == variantId) &&
             const DeepCollectionEquality()
-                .equals(other._discountAllocations, _discountAllocations));
+                .equals(other._discountAllocations, _discountAllocations) &&
+            (identical(other.sellingPlanAllocation, sellingPlanAllocation) ||
+                other.sellingPlanAllocation == sellingPlanAllocation) &&
+            const DeepCollectionEquality()
+                .equals(other._attributes, _attributes));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, quantity, cost, merchandise,
-      variantId, const DeepCollectionEquality().hash(_discountAllocations));
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      quantity,
+      cost,
+      merchandise,
+      variantId,
+      const DeepCollectionEquality().hash(_discountAllocations),
+      sellingPlanAllocation,
+      const DeepCollectionEquality().hash(_attributes));
 
-  /// Create a copy of Line
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$LineImplCopyWith<_$LineImpl> get copyWith =>
@@ -289,7 +345,9 @@ abstract class _Line extends Line {
       final CartLineCost? cost,
       final ProductVariant? merchandise,
       final String? variantId,
-      final List<CartDiscountAllocation?>? discountAllocations}) = _$LineImpl;
+      final List<CartDiscountAllocation?>? discountAllocations,
+      final SellingPlanAllocation? sellingPlanAllocation,
+      final List<Attribute?>? attributes}) = _$LineImpl;
   _Line._() : super._();
 
   factory _Line.fromJson(Map<String, dynamic> json) = _$LineImpl.fromJson;
@@ -306,11 +364,12 @@ abstract class _Line extends Line {
   String? get variantId;
   @override
   List<CartDiscountAllocation?>? get discountAllocations;
-
-  /// Create a copy of Line
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  SellingPlanAllocation? get sellingPlanAllocation;
+  @override
+  List<Attribute?>? get attributes;
+  @override
+  @JsonKey(ignore: true)
   _$$LineImplCopyWith<_$LineImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

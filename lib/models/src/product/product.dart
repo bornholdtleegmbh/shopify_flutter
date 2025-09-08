@@ -29,9 +29,7 @@ class Product with _$Product {
     required String createdAt,
     required List<ProductVariant> productVariants,
     required String productType,
-    required String publishedAt,
     required List<String> tags,
-    required String updatedAt,
     required List<ShopifyImage> images,
     required List<Option> options,
     required String vendor,
@@ -145,9 +143,7 @@ class Product with _$Product {
         handle: json['node']?['handle'] ?? '',
         onlineStoreUrl: json['node']?['onlineStoreUrl'] ?? '',
         productType: json['node']?['productType'] ?? '',
-        publishedAt: json['node']?['publishedAt'],
         tags: _getTags(json['node']),
-        updatedAt: json['node']?['updatedAt'],
         images: _getImageList(json),
         cursor: json['cursor'],
         options: _getOptionList(json),
@@ -173,9 +169,7 @@ class Product with _$Product {
       handle: json['handle'] ?? '',
       onlineStoreUrl: json['onlineStoreUrl'] ?? '',
       productType: json['productType'] ?? '',
-      publishedAt: json['publishedAt'],
       tags: _getTags(json),
-      updatedAt: json['updatedAt'],
       images: _getImageList(json),
       cursor: json['cursor'],
       options: _getOptionList(json),
@@ -224,7 +218,6 @@ class Product with _$Product {
             jsonVariant['selectedOptions'] = jsonVariant['selectedOptions']
                 ?.map((e) => e is SelectedOption ? e.toJson() : e)
                 ?.toList();
-            jsonVariant['metafields'] = _getMetafieldList(jsonVariant['metafields']);
             return ProductVariant.fromJson(jsonVariant);
           }).toList();
         }
@@ -358,13 +351,23 @@ class Product with _$Product {
     try {
       if (json.containsKey('node')) {
         if (json['node']?['metafields'] == null) return [];
-
-        var list = (json['node']?['metafields']) as List;
-
-        return list.where((entry) => entry != null).map((entry) {
-          log("Mapping entry: $entry");
-          return Metafield.fromGraphJson(entry);
-        }).toList();
+        final metafields = ((json['node']?['metafields'] ?? []) as List)
+            .map((v) => Metafield.fromGraphJson(v ?? const {}))
+            .toList();
+        // remove null entries from the list
+        return metafields;
+      } else if (json['metafields'] != null) {
+        final metafields = ((json['node']?['metafields'] ?? []) as List)
+            .map((v) => Metafield.fromGraphJson(v ?? const {}))
+            .toList();
+        // remove null entries from the list
+        return metafields;
+      } else if (json['nodes'] != null && json['nodes'].isNotEmpty) {
+        final metafields = ((json['nodes'][0]?['metafields'] ?? []) as List)
+            .map((v) => Metafield.fromGraphJson(v ?? const {}))
+            .toList();
+        // remove null entries from the list
+        return metafields;
       }
       return [];
     } catch (e) {

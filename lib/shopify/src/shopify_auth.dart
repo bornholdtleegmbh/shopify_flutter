@@ -14,7 +14,9 @@ import '../../graphql_operations/storefront/mutations/customer_create.dart';
 import '../../graphql_operations/storefront/mutations/customer_recover.dart';
 import '../../graphql_operations/storefront/queries/get_customer.dart';
 import '../../shopify_config.dart';
+
 const String _CUSTOMER_METAFIELD_PLACEHOLDER = '###_METAFIELDS_###';
+
 /// ShopifyAuth class handles the authentication.
 class ShopifyAuth with ShopifyError {
   ShopifyAuth._();
@@ -116,10 +118,10 @@ class ShopifyAuth with ShopifyError {
   Future<ShopifyUser> createUserWithEmailAndPassword({
     required String email,
     required String password,
+    String? phone,
     String? firstName,
     String? lastName,
     bool? acceptsMarketing,
-    String? phone,
   }) async {
     final MutationOptions _options = MutationOptions(
       document: gql(customerCreateMutation),
@@ -176,12 +178,10 @@ class ShopifyAuth with ShopifyError {
     if (accessTokenWithExpDate.accessToken == null) {
       throw Exception('Invalid credentials');
     }
-    String customerQuery =  getCustomerQuery;
+    String customerQuery = getCustomerQuery;
     String metafieldStr =
-    metafieldKeys.entries.map((entry) =>
-    '{namespace: "${entry.value}", key: "${entry.key}"}').join(',\n');
-    customerQuery = customerQuery
-        .replaceAll(_CUSTOMER_METAFIELD_PLACEHOLDER, metafieldStr);
+        metafieldKeys.entries.map((entry) => '{namespace: "${entry.value}", key: "${entry.key}"}').join(',\n');
+    customerQuery = customerQuery.replaceAll(_CUSTOMER_METAFIELD_PLACEHOLDER, metafieldStr);
     final WatchQueryOptions _getCustomer = WatchQueryOptions(
       document: gql(customerQuery),
       variables: {'customerAccessToken': accessTokenWithExpDate.accessToken},
@@ -206,12 +206,10 @@ class ShopifyAuth with ShopifyError {
     Map<String, String> metafieldKeys = const {},
   }) async {
     final accessTokenWithExpDate = await _createAccessTokenWithMultipass(multipassToken);
-    String customerQuery =  getCustomerQuery;
+    String customerQuery = getCustomerQuery;
     String metafieldStr =
-    metafieldKeys.entries.map((entry) =>
-    '{namespace: "${entry.value}", key: "${entry.key}"}').join(',\n');
-    customerQuery = customerQuery
-        .replaceAll(_CUSTOMER_METAFIELD_PLACEHOLDER, metafieldStr);
+        metafieldKeys.entries.map((entry) => '{namespace: "${entry.value}", key: "${entry.key}"}').join(',\n');
+    customerQuery = customerQuery.replaceAll(_CUSTOMER_METAFIELD_PLACEHOLDER, metafieldStr);
     final WatchQueryOptions _getCustomer = WatchQueryOptions(
       document: gql(customerQuery),
       variables: {'customerAccessToken': accessTokenWithExpDate.accessToken},
@@ -305,7 +303,7 @@ class ShopifyAuth with ShopifyError {
     } else if (_shopifyUser.containsKey(ShopifyConfig.storeUrl)) {
       return _shopifyUser[ShopifyConfig.storeUrl];
     } else {
-      return null;
+      return _getShopifyUser(accessToken: accessToken);
     }
   }
 
@@ -314,12 +312,10 @@ class ShopifyAuth with ShopifyError {
     required String accessToken,
     Map<String, String> metafieldKeys = const {},
   }) async {
-    String customerQuery =  getCustomerQuery;
+    String customerQuery = getCustomerQuery;
     String metafieldStr =
-    metafieldKeys.entries.map((entry) =>
-    '{namespace: "${entry.value}", key: "${entry.key}"}').join(',\n');
-    customerQuery = customerQuery
-        .replaceAll(_CUSTOMER_METAFIELD_PLACEHOLDER, metafieldStr);
+        metafieldKeys.entries.map((entry) => '{namespace: "${entry.value}", key: "${entry.key}"}').join(',\n');
+    customerQuery = customerQuery.replaceAll(_CUSTOMER_METAFIELD_PLACEHOLDER, metafieldStr);
     final WatchQueryOptions _getCustomer = WatchQueryOptions(
       document: gql(customerQuery),
       variables: {'customerAccessToken': accessToken},

@@ -1,6 +1,6 @@
 /// Query to get products
 const String getProductsQuery = r'''
-query($cursor: String, $reverse: Boolean, $country: CountryCode)  @inContext(country: $country){
+query($metafields: [HasMetafieldsIdentifier!]!, $varMetafields: [HasMetafieldsIdentifier!]!, $cursor : String, $reverse: Boolean, $country: CountryCode)  @inContext(country: $country){
   products(first: 250, after: $cursor, reverse: $reverse) {
     pageInfo {
       hasNextPage
@@ -12,6 +12,23 @@ query($cursor: String, $reverse: Boolean, $country: CountryCode)  @inContext(cou
           id
           name
           values
+        }
+        metafields(identifiers: $metafields) {
+          id
+          type
+          key
+          namespace
+          value
+          description
+          reference {
+            ... on MediaImage {
+              image {
+                originalSrc
+                url
+                id
+              }
+            }
+          }
         }
         variants(first: 250) {
           edges {
@@ -41,21 +58,83 @@ query($cursor: String, $reverse: Boolean, $country: CountryCode)  @inContext(cou
                 name
                 value
               }
-              metafields(identifiers: [
-                ###_VAR_METAFIELDS_###,
-              ]) {
-                id
-                namespace
-                key
-                value
-                type
-              }
               unitPriceMeasurement {
                 measuredType
                 quantityUnit
                 quantityValue
                 referenceUnit
                 referenceValue
+              }
+              metafields(identifiers: $varMetafields) {
+                id
+                type
+                key
+                namespace
+                value
+                description
+                reference {
+                  ... on MediaImage {
+                    image {
+                      originalSrc
+                      url
+                      id
+                    }
+                  }
+                }
+              }
+              sellingPlanAllocations(first: 250) {
+                nodes {
+                  checkoutChargeAmount {
+                    amount
+                    currencyCode
+                  }
+                  remainingBalanceChargeAmount {
+                    amount
+                    currencyCode
+                  }
+                  sellingPlan {
+                    id
+                    name
+                    options {
+                      name
+                      value
+                    }
+                    description
+                    checkoutCharge {
+                      type
+                      value {
+                        ... on MoneyV2 {
+                          amount
+                          currencyCode
+                        }
+                        ... on SellingPlanCheckoutChargePercentageValue {
+                          percentage
+                        }
+                      }
+                    }
+                    priceAdjustments {
+                      adjustmentValue {
+                        ... on SellingPlanFixedAmountPriceAdjustment {
+                          adjustmentAmount {
+                            amount
+                            currencyCode
+                          }
+                        }
+                        ... on SellingPlanFixedPriceAdjustment {
+                          price {
+                            amount
+                            currencyCode
+                          }
+                        }
+                        ... on SellingPlanPercentagePriceAdjustment {
+                          adjustmentPercentage
+                        }
+                      }
+                      orderCount
+                    }
+                    recurringDeliveries
+                  }
+                }
               }
             }
           }
@@ -83,10 +162,8 @@ query($cursor: String, $reverse: Boolean, $country: CountryCode)  @inContext(cou
         id
         onlineStoreUrl
         productType
-        publishedAt
         tags
         title
-        updatedAt
         vendor
         images(first: 250) {
           edges {
@@ -110,15 +187,6 @@ query($cursor: String, $reverse: Boolean, $country: CountryCode)  @inContext(cou
               }
             }
           }
-        }
-        metafields(identifiers: [
-          ###_METAFIELDS_###,
-        ]) {
-          id
-          namespace
-          key
-          value
-          type
         }
       }
     }

@@ -17,7 +17,7 @@ _$NutrientsImpl _$$NutrientsImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$NutrientsImplToJson(_$NutrientsImpl instance) =>
     <String, dynamic>{
-      'nodes': instance.nodes,
+      'nodes': instance.nodes.map((e) => e.toJson()).toList(),
       'hasNextPage': instance.hasNextPage,
       'endCursor': instance.endCursor,
     };

@@ -1,6 +1,6 @@
 /// Query to get product recommendations
 const String getProductRecommendationsQuery = r'''
-query getProductRecommentationsQuery($id: ID!, $country: CountryCode)  @inContext(country: $country){
+query getProductRecommentationsQuery($metafields: [HasMetafieldsIdentifier!]!, $id: ID!, $country: CountryCode)  @inContext(country: $country){
   productRecommendations(productId: $id) {
     availableForSale
     createdAt
@@ -37,11 +37,26 @@ query getProductRecommentationsQuery($id: ID!, $country: CountryCode)  @inContex
       name
       values
     }
+    metafields(identifiers: $metafields) {
+      id
+      type
+      key
+      namespace
+      value
+      description
+      reference {
+        ... on MediaImage {
+          image {
+            originalSrc
+            url
+            id
+          }
+        }
+      }
+    }
     productType
-    publishedAt
     tags
     title
-    updatedAt
     vendor
     variants(first: 250) {
       edges {
@@ -67,6 +82,60 @@ query getProductRecommentationsQuery($id: ID!, $country: CountryCode)  @inContex
           sku
           requiresShipping
           quantityAvailable
+          sellingPlanAllocations(first: 250) {
+              nodes {
+                checkoutChargeAmount {
+                  amount
+                  currencyCode
+                }
+                remainingBalanceChargeAmount {
+                  amount
+                  currencyCode
+                }
+                sellingPlan {
+                  id
+                  name
+                  options {
+                    name
+                    value
+                  }
+                  description
+                  checkoutCharge {
+                    type
+                    value {
+                      ... on MoneyV2 {
+                        amount
+                        currencyCode
+                      }
+                      ... on SellingPlanCheckoutChargePercentageValue {
+                        percentage
+                      }
+                    }
+                  }
+                  priceAdjustments {
+                    adjustmentValue {
+                      ... on SellingPlanFixedAmountPriceAdjustment {
+                        adjustmentAmount {
+                          amount
+                          currencyCode
+                        }
+                      }
+                      ... on SellingPlanFixedPriceAdjustment {
+                        price {
+                          amount
+                          currencyCode
+                        }
+                      }
+                      ... on SellingPlanPercentagePriceAdjustment {
+                        adjustmentPercentage
+                      }
+                    }
+                    orderCount
+                  }
+                  recurringDeliveries
+                }
+              }
+            }
           selectedOptions {
             name
             value

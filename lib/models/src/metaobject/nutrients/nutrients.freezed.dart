@@ -24,12 +24,8 @@ mixin _$Nutrients {
   bool get hasNextPage => throw _privateConstructorUsedError;
   String? get endCursor => throw _privateConstructorUsedError;
 
-  /// Serializes this Nutrients to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Nutrients
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $NutrientsCopyWith<Nutrients> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -52,8 +48,6 @@ class _$NutrientsCopyWithImpl<$Res, $Val extends Nutrients>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Nutrients
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -97,8 +91,6 @@ class __$$NutrientsImplCopyWithImpl<$Res>
       _$NutrientsImpl _value, $Res Function(_$NutrientsImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Nutrients
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -166,14 +158,12 @@ class _$NutrientsImpl extends _Nutrients {
                 other.endCursor == endCursor));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType,
       const DeepCollectionEquality().hash(_nodes), hasNextPage, endCursor);
 
-  /// Create a copy of Nutrients
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$NutrientsImplCopyWith<_$NutrientsImpl> get copyWith =>
@@ -203,11 +193,8 @@ abstract class _Nutrients extends Nutrients {
   bool get hasNextPage;
   @override
   String? get endCursor;
-
-  /// Create a copy of Nutrients
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$NutrientsImplCopyWith<_$NutrientsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

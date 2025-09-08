@@ -1,12 +1,16 @@
 /// mutation to update cart discount codes
 const String updateCartDiscountCodesMutation = r'''
-mutation cartDiscountCodesUpdate($cartId: ID!, $discountCodes: [String!], $country: CountryCode)  @inContext(country: $country) {
+mutation cartDiscountCodesUpdate($cartId: ID!, $discountCodes: [String!], $country: CountryCode, $reverse: Boolean!)  @inContext(country: $country) {
   cartDiscountCodesUpdate(cartId: $cartId, discountCodes: $discountCodes) {
     cart {
       id
       checkoutUrl
       createdAt
       totalQuantity
+      attributes {
+        key
+        value
+      }
       cost {
         checkoutChargeAmount {
           amount
@@ -71,7 +75,7 @@ mutation cartDiscountCodesUpdate($cartId: ID!, $discountCodes: [String!], $count
           }
         }
       }
-      lines(first: 250, reverse: true) {
+      lines(first: 250, reverse: $reverse) {
         edges {
           cursor
           node {
@@ -95,17 +99,68 @@ mutation cartDiscountCodesUpdate($cartId: ID!, $discountCodes: [String!], $count
                 currencyCode
               }
             }
+            attributes {
+              key
+              value
+            }
             discountAllocations {
               discountedAmount {
                 amount
                 currencyCode
               }
             }
-            sellingPlanAllocation {
-              sellingPlan {
-                id
-              }
-            }
+            sellingPlanAllocation{
+                    checkoutChargeAmount {
+                      amount
+                      currencyCode
+                    }
+                    remainingBalanceChargeAmount {
+                      amount
+                      currencyCode
+                    }
+                    sellingPlan {
+                      id
+                      name
+                      options {
+                        name
+                        value
+                      }
+                      description
+                      checkoutCharge {
+                        type
+                        value {
+                          ... on MoneyV2 {
+                            amount
+                            currencyCode
+                          }
+                          ... on SellingPlanCheckoutChargePercentageValue {
+                            percentage
+                          }
+                        }
+                      }
+                      priceAdjustments {
+                        adjustmentValue {
+                          ... on SellingPlanFixedAmountPriceAdjustment {
+                            adjustmentAmount {
+                              amount
+                              currencyCode
+                            }
+                          }
+                          ... on SellingPlanFixedPriceAdjustment {
+                            price {
+                              amount
+                              currencyCode
+                            }
+                          }
+                          ... on SellingPlanPercentagePriceAdjustment {
+                            adjustmentPercentage
+                          }
+                        }
+                        orderCount
+                      }
+                      recurringDeliveries
+                    }
+                }
             merchandise {
               ... on ProductVariant {
                 id
@@ -129,6 +184,60 @@ mutation cartDiscountCodesUpdate($cartId: ID!, $discountCodes: [String!], $count
                 quantityAvailable
                 sku
                 requiresShipping
+                sellingPlanAllocations(first: 250) {
+                    nodes {
+                            checkoutChargeAmount {
+                              amount
+                              currencyCode
+                            }
+                            remainingBalanceChargeAmount {
+                              amount
+                              currencyCode
+                            }
+                            sellingPlan {
+                              id
+                              name
+                              options {
+                                name
+                                value
+                              }
+                              description
+                              checkoutCharge {
+                                type
+                                value {
+                                  ... on MoneyV2 {
+                                    amount
+                                    currencyCode
+                                  }
+                                  ... on SellingPlanCheckoutChargePercentageValue {
+                                    percentage
+                                  }
+                                }
+                              }
+                              priceAdjustments {
+                                adjustmentValue {
+                                  ... on SellingPlanFixedAmountPriceAdjustment {
+                                    adjustmentAmount {
+                                      amount
+                                      currencyCode
+                                    }
+                                  }
+                                  ... on SellingPlanFixedPriceAdjustment {
+                                    price {
+                                      amount
+                                      currencyCode
+                                    }
+                                  }
+                                  ... on SellingPlanPercentagePriceAdjustment {
+                                    adjustmentPercentage
+                                  }
+                                }
+                                orderCount
+                              }
+                              recurringDeliveries
+                            }
+                          }   
+                }
                 product {
                   options(first: 5) {
                       id
@@ -159,6 +268,60 @@ mutation cartDiscountCodesUpdate($cartId: ID!, $discountCodes: [String!], $count
                         sku
                         requiresShipping
                         quantityAvailable
+                        sellingPlanAllocations(first: 250) {
+                          nodes {
+                            checkoutChargeAmount {
+                              amount
+                              currencyCode
+                            }
+                            remainingBalanceChargeAmount {
+                              amount
+                              currencyCode
+                            }
+                            sellingPlan {
+                              id
+                              name
+                              options {
+                                name
+                                value
+                              }
+                              description
+                              checkoutCharge {
+                                type
+                                value {
+                                  ... on MoneyV2 {
+                                    amount
+                                    currencyCode
+                                  }
+                                  ... on SellingPlanCheckoutChargePercentageValue {
+                                    percentage
+                                  }
+                                }
+                              }
+                              priceAdjustments {
+                                adjustmentValue {
+                                  ... on SellingPlanFixedAmountPriceAdjustment {
+                                    adjustmentAmount {
+                                      amount
+                                      currencyCode
+                                    }
+                                  }
+                                  ... on SellingPlanFixedPriceAdjustment {
+                                    price {
+                                      amount
+                                      currencyCode
+                                    }
+                                  }
+                                  ... on SellingPlanPercentagePriceAdjustment {
+                                    adjustmentPercentage
+                                  }
+                                }
+                                orderCount
+                              }
+                              recurringDeliveries
+                            }
+                          }
+                        }
                         selectedOptions {
                           name
                           value
@@ -189,10 +352,8 @@ mutation cartDiscountCodesUpdate($cartId: ID!, $discountCodes: [String!], $count
                   id
                   onlineStoreUrl
                   productType
-                  publishedAt
                   tags
                   title
-                  updatedAt
                   vendor
                   images(first: 5) {
                     edges {

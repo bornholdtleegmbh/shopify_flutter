@@ -1,12 +1,16 @@
 /// mutation to update the note of a cart
 const String updateNoteInCartMutation = r'''
-mutation cartNoteUpdate($cartId: ID!, $note: String!, $country: CountryCode)  @inContext(country: $country) {
+mutation cartNoteUpdate($cartId: ID!, $note: String!, $country: CountryCode, $reverse: Boolean!)  @inContext(country: $country) {
   cartNoteUpdate(cartId: $cartId, note: $note) {
     cart {
       id
       checkoutUrl
       createdAt
       totalQuantity
+      attributes {
+        key
+        value
+      }
       cost {
         checkoutChargeAmount {
           amount
@@ -71,7 +75,7 @@ mutation cartNoteUpdate($cartId: ID!, $note: String!, $country: CountryCode)  @i
           }
         }
       }
-      lines(first: 250, reverse: true) {
+      lines(first: 250, reverse: $reverse) {
         edges {
           cursor
           node {
@@ -95,17 +99,68 @@ mutation cartNoteUpdate($cartId: ID!, $note: String!, $country: CountryCode)  @i
                 currencyCode
               }
             }
+            attributes {
+              key
+              value
+            }
             discountAllocations {
               discountedAmount {
                 amount
                 currencyCode
               }
             }
-            sellingPlanAllocation {
-              sellingPlan {
-                id
-              }
-            }
+            sellingPlanAllocation{
+                    checkoutChargeAmount {
+                      amount
+                      currencyCode
+                    }
+                    remainingBalanceChargeAmount {
+                      amount
+                      currencyCode
+                    }
+                    sellingPlan {
+                      id
+                      name
+                      options {
+                        name
+                        value
+                      }
+                      description
+                      checkoutCharge {
+                        type
+                        value {
+                          ... on MoneyV2 {
+                            amount
+                            currencyCode
+                          }
+                          ... on SellingPlanCheckoutChargePercentageValue {
+                            percentage
+                          }
+                        }
+                      }
+                      priceAdjustments {
+                        adjustmentValue {
+                          ... on SellingPlanFixedAmountPriceAdjustment {
+                            adjustmentAmount {
+                              amount
+                              currencyCode
+                            }
+                          }
+                          ... on SellingPlanFixedPriceAdjustment {
+                            price {
+                              amount
+                              currencyCode
+                            }
+                          }
+                          ... on SellingPlanPercentagePriceAdjustment {
+                            adjustmentPercentage
+                          }
+                        }
+                        orderCount
+                      }
+                      recurringDeliveries
+                    }
+                }
             merchandise {
               ... on ProductVariant {
                 id
@@ -129,6 +184,60 @@ mutation cartNoteUpdate($cartId: ID!, $note: String!, $country: CountryCode)  @i
                 quantityAvailable
                 sku
                 requiresShipping
+                sellingPlanAllocations(first: 250) {
+                    nodes {
+                            checkoutChargeAmount {
+                              amount
+                              currencyCode
+                            }
+                            remainingBalanceChargeAmount {
+                              amount
+                              currencyCode
+                            }
+                            sellingPlan {
+                              id
+                              name
+                              options {
+                                name
+                                value
+                              }
+                              description
+                              checkoutCharge {
+                                type
+                                value {
+                                  ... on MoneyV2 {
+                                    amount
+                                    currencyCode
+                                  }
+                                  ... on SellingPlanCheckoutChargePercentageValue {
+                                    percentage
+                                  }
+                                }
+                              }
+                              priceAdjustments {
+                                adjustmentValue {
+                                  ... on SellingPlanFixedAmountPriceAdjustment {
+                                    adjustmentAmount {
+                                      amount
+                                      currencyCode
+                                    }
+                                  }
+                                  ... on SellingPlanFixedPriceAdjustment {
+                                    price {
+                                      amount
+                                      currencyCode
+                                    }
+                                  }
+                                  ... on SellingPlanPercentagePriceAdjustment {
+                                    adjustmentPercentage
+                                  }
+                                }
+                                orderCount
+                              }
+                              recurringDeliveries
+                            }
+                          }   
+                }
                 product {
                   options(first: 5) {
                       id
@@ -159,6 +268,60 @@ mutation cartNoteUpdate($cartId: ID!, $note: String!, $country: CountryCode)  @i
                         sku
                         requiresShipping
                         quantityAvailable
+                        sellingPlanAllocations(first: 250) {
+                          nodes {
+                            checkoutChargeAmount {
+                              amount
+                              currencyCode
+                            }
+                            remainingBalanceChargeAmount {
+                              amount
+                              currencyCode
+                            }
+                            sellingPlan {
+                              id
+                              name
+                              options {
+                                name
+                                value
+                              }
+                              description
+                              checkoutCharge {
+                                type
+                                value {
+                                  ... on MoneyV2 {
+                                    amount
+                                    currencyCode
+                                  }
+                                  ... on SellingPlanCheckoutChargePercentageValue {
+                                    percentage
+                                  }
+                                }
+                              }
+                              priceAdjustments {
+                                adjustmentValue {
+                                  ... on SellingPlanFixedAmountPriceAdjustment {
+                                    adjustmentAmount {
+                                      amount
+                                      currencyCode
+                                    }
+                                  }
+                                  ... on SellingPlanFixedPriceAdjustment {
+                                    price {
+                                      amount
+                                      currencyCode
+                                    }
+                                  }
+                                  ... on SellingPlanPercentagePriceAdjustment {
+                                    adjustmentPercentage
+                                  }
+                                }
+                                orderCount
+                              }
+                              recurringDeliveries
+                            }
+                          }
+                        }
                         selectedOptions {
                           name
                           value
@@ -189,10 +352,8 @@ mutation cartNoteUpdate($cartId: ID!, $note: String!, $country: CountryCode)  @i
                   id
                   onlineStoreUrl
                   productType
-                  publishedAt
                   tags
                   title
-                  updatedAt
                   vendor
                   images(first: 5) {
                     edges {

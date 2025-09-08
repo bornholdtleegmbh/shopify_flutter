@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../attribute_input/attribute_input.dart';
+
 part 'cart_line_input.freezed.dart';
 part 'cart_line_input.g.dart';
 
@@ -11,10 +13,10 @@ class CartLineInput with _$CartLineInput {
 
   /// The cart line input constructor
   factory CartLineInput({
-    String? id,
     required String merchandiseId,
     required int quantity,
     String? sellingPlanId,
+    @Default([]) List<AttributeInput?> attributes,
   }) = _CartLineInput;
 
   /// The cart line input from json factory
@@ -25,11 +27,8 @@ class CartLineInput with _$CartLineInput {
   @override
   Map<String, dynamic> toJson() =>
       <String, dynamic>{
-         if (id != null) 'id': id,
         'merchandiseId': merchandiseId,
         'quantity': quantity,
         if (sellingPlanId != null) 'sellingPlanId': sellingPlanId,
       };
-
-
 }
